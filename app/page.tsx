@@ -1,6 +1,8 @@
 import React from "react";
 import { LoginButton } from "@/components/ui/auth/login-button";
 import { Button } from "@/components/ui/button";
+import HeroSection from "@/components/ui/HeroSection";
+import { SpotlightPreview } from "@/components/ui/SpotLight";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   SparklesIcon,
@@ -15,72 +17,10 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-slate-950 text-white">
+    <div className="min-h-screen bg-slate-950 sm:m-h-[100dvh]  lg:h-[100vh]  w-full dark:bg-black bg-white  dark:bg-dot-white/[0.2] bg-dot-black/[0.2]  flex flex-col justify-center">
       <BackgroundBeams />
-
-      {/* Features Section */}
-      <section className="container mx-auto px-4 py-16 grid md:grid-cols-3 gap-8">
-        <Card className="bg-slate-900 border-cyan-500">
-          <CardHeader>
-            <CardTitle className="flex items-center text-cyan-500">
-              <SparklesIcon className="w-6 h-6 mr-2" />
-              Smart Matching
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="text-gray-300">
-            Our AI-powered algorithm connects influencers with the perfect brand
-            opportunities.
-          </CardContent>
-        </Card>
-        <Card className="bg-slate-900 border-cyan-500">
-          <CardHeader>
-            <CardTitle className="flex items-center text-cyan-500">
-              <UsersIcon className="w-6 h-6 mr-2" />
-              Influencer Dashboard
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="text-gray-300">
-            Manage your campaigns, track performance, and grow your influence
-            all in one place.
-          </CardContent>
-        </Card>
-        <Card className="bg-slate-900 border-cyan-500">
-          <CardHeader>
-            <CardTitle className="flex items-center text-cyan-500">
-              <HomeIcon className="w-6 h-6 mr-2" />
-              Brand Control Center
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="text-gray-300">
-            Discover top influencers, launch campaigns, and measure ROI with
-            ease.
-          </CardContent>
-        </Card>
-      </section>
-      {/* Call-to-Action */}
-      <section className="text-center py-16 relative">
-        <BackgroundBeams />
-        <div className="relative z-10">
-          <h2 className="text-3xl font-bold mb-4 text-cyan-500">
-            Ready to Transform Your Marketing?
-          </h2>
-          <p className="text-xl text-gray-300 mb-8">
-            Join thousands of influencers and brands already succeeding on our
-            platform.
-          </p>
-          <div className="flex justify-center pace-x-4">
-            <Link href="/sign-in" passHref>
-              <Button
-                size="lg"
-                className="bg-cyan-500 hover:bg-cyan-600 text-black"
-              >
-                <ArrowRightIcon className="w-6 h-6 mr-2" />
-                Get Started Now
-              </Button>
-            </Link>
-          </div>
-        </div>
-      </section>
+      
+      <HeroSection />
     </div>
   );
 }
