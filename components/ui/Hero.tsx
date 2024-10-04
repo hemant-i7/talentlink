@@ -41,6 +41,13 @@ const Hero = () => {
           data-headlessui-state=""
         ></div>
       </div>
+      <div>
+        <Link href="/sign-in">
+          <Button variant="outline" className="px-10 py-7 text-lg rounded-3xl">
+            Get Started
+          </Button>
+        </Link>
+      </div>
     </div>
   );
 };

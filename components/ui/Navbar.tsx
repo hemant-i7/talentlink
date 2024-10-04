@@ -13,18 +13,18 @@ export function FloatingNavDemo() {
             icon: <IconHome className="h-4 w-4 text-neutral-500 dark:text-white" />,
         },
         {
-            name: "Domain Info",
+            name: "Gallery",
             link: "/project",
             icon: <IconChecklist className="h-4 w-4 text-neutral-500 dark:text-white" />,
         },
         {
-            name: "Hosting Info",
+            name: "About us",
             link: "/interview",
             icon: (
                 <IconDeviceImac className="h-4 w-4 text-neutral-500 dark:text-white" />
             ),},
         {
-            name: "IP finder",
+            name: "Get Started",
             link: "/interview",
             icon: (
                 <IconDeviceImac className="h-4 w-4 text-neutral-500 dark:text-white" />
@@ -32,7 +32,7 @@ export function FloatingNavDemo() {
         },
     ];
     return (
-        <div className="relative w-full ">
+        <div className="flex w-full justify-end">
             <Link href="/" passHref>
                 <LogoComponent isDarkMode={isDarkMode} />
             </Link>

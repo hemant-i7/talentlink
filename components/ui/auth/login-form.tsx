@@ -3,20 +3,16 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { LoginFormSchema } from "@/schemas";
-import {Form,
+import {
+  Form,
   FormLabel,
   FormField,
   FormControl,
   FormMessage,
   FormItem,
-  
-} from "@/components/ui/form";
-
+} from "@/components/form";
 
 export const LoginForm = () => {
- 
-
-
   return (
     <CardWrapper
       headerLabel="welcome back "
@@ -26,7 +22,6 @@ export const LoginForm = () => {
     >
       Login Form
     </CardWrapper>
-    
   );
 };
 
