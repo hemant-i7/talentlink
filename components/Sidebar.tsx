@@ -26,7 +26,7 @@ const routes = [
   {
     label: "Get Brands",
     icon: Building, // Make sure to replace this with your actual icon
-    href: "/connect-brands",
+    href: "/dashboard/brand",
     color: "text-purple-500",
   },
   {
