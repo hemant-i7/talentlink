@@ -3,6 +3,7 @@ import Image from "next/image";
 import { Montserrat } from "next/font/google";
 import { cn } from "@/lib/utils";
 import {
+  BriefcaseBusiness,
   Building,
   File,
   FolderKanban,
@@ -18,7 +19,7 @@ import {
 } from "lucide-react";
 import { User } from "@clerk/nextjs/server";
 import { UserButton } from "@clerk/nextjs";
-import { IconShoppingBagDiscount } from "@tabler/icons-react";
+import { IconJoinBevel, IconShoppingBagDiscount } from "@tabler/icons-react";
 
 const montserrat = Montserrat({ weight: "600", subsets: ["latin"] });
 
@@ -26,32 +27,32 @@ const routes = [
   {
     label: "Get Brands",
     icon: Building, // Make sure to replace this with your actual icon
-    href: "/dashboard/brand",
+    href: "/brand",
     color: "text-purple-500",
   },
   {
     label: "My Collaborations",
     icon: Users, // Replace with the actual icon
-    href: "/my-collaborations",
+    href: "/collaborations",
     color: "text-indigo-600",
   },
   {
     label: "Analytics",
     icon: LineChart, // Replace with the actual icon
-    href: "/dashboard/analytics",
+    href: "/analytics",
     color: "text-yellow-500",
   },
   // New section for brand managers
   {
-    label: "Add options",
-    icon: FolderKanban, // Replace with the actual icon
-    href: "/dashboard/manage-influencers",
+    label: "Recruitemnt",
+    icon: BriefcaseBusiness, // Replace with the actual icon
+    href: "/recruitemnt",
     color: "text-red-500",
   },
   {
     label: "Settings",
     icon: Settings, // Replace with the actual icon
-    href: "dashboard/settings",
+    href: "/settings",
     color: "text-teal-600",
   },
 ];
