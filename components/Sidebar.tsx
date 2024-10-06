@@ -53,7 +53,7 @@ const routes = [
   {
     label: "Manage",
     icon: PencilLine, // Replace with the actual icon
-    href: "/",
+    href: "/manage",
     color: "text-teal-600",
   },
 ];

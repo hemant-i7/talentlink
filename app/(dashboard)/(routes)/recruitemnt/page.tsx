@@ -26,6 +26,8 @@ const AgencyRecruitment = () => {
     });
   };
 
+
+
   const handleSelectChange = (name: string, value: string) => {
     setFormData({
       ...formData,
@@ -35,10 +37,9 @@ const AgencyRecruitment = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Add form submission logic here (e.g., API call to create a job posting)
+    localStorage.setItem('jobPostingData', JSON.stringify(formData));
     console.log("Job posting submitted:", formData);
   };
-
   return (
     <div className="pt-20 mx-10 px-10 py-10 bg-zinc-900 min-h-screen">
       <h2 className="text-2xl font-bold text-center py-5 justify-center text-white mb-6">Create New Job Posting</h2>
@@ -149,6 +150,9 @@ const AgencyRecruitment = () => {
 
         {/* Application Deadline */}
         <div className="bg-zinc-800 p-4 rounded">
+
+
+          
           <Label htmlFor="applicationDeadline">Application Deadline</Label>
           <Input 
             id="applicationDeadline"
@@ -173,3 +177,4 @@ const AgencyRecruitment = () => {
 };
 
 export default AgencyRecruitment;
+
