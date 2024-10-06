@@ -13,6 +13,7 @@ import {
   LogOut,
   MessageSquare,
   Music,
+  PencilLine,
   Settings,
   Users,
   VideoIcon,
@@ -50,9 +51,9 @@ const routes = [
     color: "text-red-500",
   },
   {
-    label: "Settings",
-    icon: Settings, // Replace with the actual icon
-    href: "/settings",
+    label: "Manage",
+    icon: PencilLine, // Replace with the actual icon
+    href: "/",
     color: "text-teal-600",
   },
 ];

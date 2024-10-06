@@ -12,7 +12,6 @@ import brands from "./brands";
 const Dashboard: React.FC = () => {
   return (
     <div className="pt-40 px-24">
-      <h1>this is a brand page</h1>
       <div className="grid grid-cols-1  gap-4 md:grid-cols-2 lg:grid-cols-3">
         {brands.map((brand) => (
           <div
