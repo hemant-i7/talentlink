@@ -9,6 +9,7 @@ const brands = [
     imageUrl:
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRlAHSjq7Gk3-FboSL_OMkC42bdCkxD12e4mw&s",
     contactEmail: "influencers@nike.com",
+    status: "WIP"
   },
   {
     id: 2,
@@ -20,6 +21,7 @@ const brands = [
     imageUrl:
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRgvk9BY1J6uiOok7R_BKGoD-AQxUxrZdZ44A&s://m.economictimes.com/thumb/msid-62384305,width-1200,height-900,resizemode-4,imgsize-13996/sephora.jpg",
     contactEmail: "collabs@sephora.com",
+    status: "PENDING"
   },
   {
     id: 3,
@@ -31,6 +33,7 @@ const brands = [
     imageUrl:
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTA5r0_FrSjm2OgttQLwh_CnVCnzbJ7dLv6oA&s",
     contactEmail: "techpartners@apple.com",
+    status: "APPROVED"
   },
   {
     id: 4,
@@ -42,6 +45,7 @@ const brands = [
     imageUrl:
       "https://cdn.britannica.com/94/193794-050-0FB7060D/Adidas-logo.jpg",
     contactEmail: "partnerships@adidas.com",
+    status: "FAILED"
   },
   {
     id: 5,
