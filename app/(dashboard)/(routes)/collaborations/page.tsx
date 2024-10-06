@@ -1,41 +1,42 @@
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
-import { CheckCircle, XCircle, Hammer, Hourglass } from 'lucide-react';
-import brands from "../brand/brands";
-
+import { CheckCircle, XCircle, Hourglass } from 'lucide-react';
+import brands from "../brand/brands"; // Assuming this is your list of brand deals
 
 const Analytics = () => {
   return (
     <div className="pt-40 px-24 h-screen">
-      {brands.map((brand) => (
-      <Card className="mb-10 flex flex-row flex-wrap justify-between items-center bg-white/5 hover:bg-white/10">
-      <CardHeader>
-        <CardTitle>
-            <img
-                  src={brand.imageUrl}
-                  alt={`${brand.name} logo`}
-                  className="w-16 h-16 mb-4 object-cover rounded-full"
-          />
-        </CardTitle>
-        <CardDescription><p className="text-lg">{brand.name}</p></CardDescription>
-      </CardHeader>
-        <CardContent>
-        <p className="text-sm font-bold text-green-500 mt-2">
-              Sponsorship: {brand.moneyOffered}
-            </p>
-        </CardContent>
-      <CardFooter>
-      { brand.status == "WIP" 
-         ? <Hammer size={24} color="blue" /> 
-         : brand.status == "PENDING" 
-         ? <Hourglass size={24} color="orange" />
-         : brand.status == "APPROVED" 
-         ? <CheckCircle size={24} color="green" /> 
-         : brand.status == "FAILED"
-         ? <XCircle size={24} color="red" />
-         : <Hammer size={24} color="blue" />}
-      </CardFooter>
-      </Card>
-      ))}
+      <h2 className="text-3xl font-bold mb-8">Brand Deals Overview</h2>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {brands.map((brand) => (
+          <Card key={brand.id} className="shadow-lg p-4">
+            <CardHeader className="flex items-center justify-between">
+              <CardTitle>{brand.name}</CardTitle>
+              {/* Display icon based on status */}
+              {brand.status === "accepted" && (
+                <CheckCircle className="text-green-500" size={28} />
+              )}
+              {brand.status === "waiting" && (
+                <Hourglass className="text-yellow-500" size={28} />
+              )}
+              {brand.status === "rejected" && (
+                <XCircle className="text-red-500" size={28} />
+              )}
+            </CardHeader>
+            <CardContent>
+              <CardDescription>{brand.description}</CardDescription>
+              <p className="text-sm font-bold mt-2">
+                Offered: {brand.moneyOffered}
+              </p>
+            </CardContent>
+            <CardFooter>
+              <p className={`text-sm ${brand.status === "accepted" ? "text-green-600 text-" : brand.status === "waiting" ? "text-yellow-600" : "text-red-600"}`}>
+                Status: waiting
+              </p>
+            </CardFooter>
+          </Card>
+        ))}
+      </div>
     </div>
   );
 };
