@@ -4,6 +4,7 @@ import brands from "../brand/brands"; // Assuming this is your list of brand dea
 
 const Analytics = () => {
   return (
+    
     <div className="pt-40 px-24 h-screen">
       <h2 className="text-3xl font-bold mb-8">Brand Deals Overview</h2>
 
