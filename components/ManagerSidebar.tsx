@@ -13,6 +13,7 @@ import {
   LogOut,
   MessageSquare,
   Settings,
+  Upload,
   Users,
   VideoIcon,
 } from "lucide-react";
@@ -24,41 +25,31 @@ const montserrat = Montserrat({ weight: "600", subsets: ["latin"] });
 
 const routes = [
   {
-    label: "Dashboard",
-    icon: LayoutDashboard,
-    href: "/manager/dashboard",
+    label: "Post Campaigns",
+    icon: Upload,
+    href: "/manager/addbrand",
     color: "text-blue-500",
   },
   {
     label: "Manage Campaigns",
     icon: FolderKanban,
-    href: "/campaigns",
+    href: "/manager/manage",
     color: "text-green-500",
   },
   {
-    label: "Recruit Influencers",
+    label: "AI Tools",
     icon: BriefcaseBusiness,
-    href: "/recruit-influencers",
+    href: "/manager/ai",
     color: "text-purple-500",
   },
+ 
   {
-    label: "Collaboration Requests",
-    icon: Users,
-    href: "/collaboration-requests",
-    color: "text-indigo-600",
-  },
-  {
-    label: "Analytics",
+    label: "Trending ",
     icon: LineChart,
-    href: "/analytics",
+    href: "/manager/trending",
     color: "text-yellow-500",
   },
-  {
-    label: "Settings",
-    icon: Settings,
-    href: "/settings",
-    color: "text-gray-500",
-  },
+  
 ];
 
 const ManagerSidebar = () => {
