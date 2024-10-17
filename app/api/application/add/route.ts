@@ -8,7 +8,16 @@ connect();
 export async function POST(req: Request) {
   try {
     // Parse the incoming request data
-    const { userId, brandId, brandName, message } = await req.json();
+    const { 
+      userId, 
+      brandId, 
+      brandName, 
+      message,
+      name,
+      mobile,
+      socialCount,
+      socialLink
+    } = await req.json();
 
     // Create a new application object
     const newApplication = new Application({
@@ -16,19 +25,32 @@ export async function POST(req: Request) {
       brandId,
       brandName,
       message,
+      name,
+      mobile,
+      socialCount,
+      socialLink,
+      status: 'pending', // Set default status
+      createdAt: new Date() // Set creation date
     });
 
     // Save the new application to the database
     await newApplication.save();
 
     return NextResponse.json(
-      { success: true, application: newApplication },
+      { 
+        success: true, 
+        application: newApplication 
+      },
       { status: 201 }
     );
   } catch (error: any) {
     console.error('Error creating application:', error);
     return NextResponse.json(
-      { success: false, message: 'Error creating application.' },
+      { 
+        success: false, 
+        message: 'Error creating application.',
+        error: error.message 
+      },
       { status: 500 }
     );
   }
