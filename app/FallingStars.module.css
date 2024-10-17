@@ -1,0 +1,76 @@
+.night {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    transform: rotateZ(40deg);
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: 10;
+}
+
+.star {
+    position: absolute;
+    height: 3px;
+    width: 3px;
+    background: rgba(255, 255, 255, 0.25);
+    border-radius: 50%;
+    filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.15));
+    animation: tail 3s ease-in-out infinite,
+        falling 3s ease-in-out infinite;
+}
+
+.star::before,
+.star::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0));
+    border-radius: 100%;
+    transform: translateX(50%) rotateZ(45deg);
+    animation: shining 3s ease-in-out infinite;
+}
+
+.star::after {
+    transform: translateX(50%) rotateZ(-45deg);
+}
+
+@keyframes tail {
+    0% {
+        width: 0;
+    }
+
+    30% {
+        width: 70px;
+    }
+
+    100% {
+        width: 0;
+    }
+}
+
+@keyframes falling {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(300px);
+    }
+}
+
+@keyframes shining {
+    0% {
+        width: 0;
+    }
+
+    50% {
+        width: 20px;
+    }
+
+    100% {
+        width: 0;
+    }
+}
