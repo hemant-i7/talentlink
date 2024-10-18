@@ -38,7 +38,7 @@ const Hero = () => {
 
       <div className="mt-20 lg:mt-12 flex flex-col justify-center gap-y-5 sm:mt-10 sm:flex-row sm:gap-y-0 sm:gap-x-6">
         {/* Button for Influencer Dashboard */}
-        <Link href="/dashboard">
+        <Link href="/sign-up">
           <Button variant="outline" className="flex items-center px-10 py-7 text-lg rounded-3xl">
             <CircleDollarSign className="mr-2" /> {/* Adjust the icon as needed */}
             Find a Brand
@@ -46,7 +46,7 @@ const Hero = () => {
         </Link>
 
         {/* Button for Brand Manager Dashboard */}
-        <Link href="/manager/dashboard">
+        <Link href="/sign-up">
           <Button variant="outline" className="flex items-center px-10 py-7 text-lg rounded-3xl">
             <User className="mr-2" /> {/* Adjust the icon as needed */}
             Find an Influencer
