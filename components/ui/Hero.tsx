@@ -3,6 +3,7 @@ import Image from "next/image"; // Importing Next.js Image component
 import Link from "next/link";
 import { Button } from "./button";
 import { SignIn, SignInButton } from "@clerk/nextjs";
+import { CircleDollarSign, User } from "lucide-react";
 
 const Hero = () => {
   return (
@@ -36,18 +37,24 @@ const Hero = () => {
       </p>
 
       <div className="mt-20 lg:mt-12 flex flex-col justify-center gap-y-5 sm:mt-10 sm:flex-row sm:gap-y-0 sm:gap-x-6">
-        <div
-          className="relative flex flex-1 flex-col items-stretch sm:flex-none"
-          data-headlessui-state=""
-        ></div>
-      </div>
-      <div>
-        <Link href="/sign-in">
-          <Button variant="outline" className="px-10 py-7 text-lg rounded-3xl">
-            Get Started
+        {/* Button for Influencer Dashboard */}
+        <Link href="/dashboard">
+          <Button variant="outline" className="flex items-center px-10 py-7 text-lg rounded-3xl">
+            <CircleDollarSign className="mr-2" /> {/* Adjust the icon as needed */}
+            Find a Brand
+          </Button>
+        </Link>
+
+        {/* Button for Brand Manager Dashboard */}
+        <Link href="/manager/dashboard">
+          <Button variant="outline" className="flex items-center px-10 py-7 text-lg rounded-3xl">
+            <User className="mr-2" /> {/* Adjust the icon as needed */}
+            Find an Influencer
           </Button>
         </Link>
       </div>
+
+      <div className="mt-8"></div>
     </div>
   );
 };

@@ -13,22 +13,22 @@ export function FloatingNavDemo() {
       icon: <IconHome className="h-4 w-4 text-neutral-500 dark:text-white" />,
     },
     {
-      name: "Gallery",
-      link: "/",
+      name: "About",
+      link: "/aboutus",
       icon: (
         <IconChecklist className="h-4 w-4 text-neutral-500 dark:text-white" />
       ),
     },
     {
-      name: "About us",
-      link: "/",
+      name: "Influencer",
+      link: "/manager/dashboard",
       icon: (
         <IconDeviceImac className="h-4 w-4 text-neutral-500 dark:text-white" />
       ),
     },
     {
-      name: "Get Started",
-      link: "/brands",
+      name: "Brand",
+      link: "/dashboard",
       icon: (
         <IconDeviceImac className="h-4 w-4 text-neutral-500 dark:text-white" />
       ),

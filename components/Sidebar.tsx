@@ -3,6 +3,7 @@ import Image from "next/image";
 import { Montserrat } from "next/font/google";
 import { cn } from "@/lib/utils";
 import {
+  Bot,
   BriefcaseBusiness,
   Building,
   File,
@@ -21,6 +22,7 @@ import {
 import { User } from "@clerk/nextjs/server";
 import { UserButton } from "@clerk/nextjs";
 import { IconJoinBevel, IconShoppingBagDiscount } from "@tabler/icons-react";
+import { FaRobot } from "react-icons/fa";
 
 const montserrat = Montserrat({ weight: "600", subsets: ["latin"] });
 
@@ -38,8 +40,8 @@ const routes = [
     color: "text-indigo-600",
   },
   {
-    label: "Analytics",
-    icon: LineChart, // Replace with the actual icon
+    label: "Ai Tools",
+    icon: Bot, // Replace with the actual icon
     href: "/analytics",
     color: "text-yellow-500",
   },
