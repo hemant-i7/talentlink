@@ -14,7 +14,16 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { toast, Toaster } from "react-hot-toast";
-import { Briefcase } from "lucide-react";
+import {
+  Briefcase,
+  FileText,
+  Users,
+  Code,
+  Award,
+  MapPin,
+  DollarSign,
+  Calendar,
+} from "lucide-react";
 
 export default function AgencyRecruitment() {
   const [formData, setFormData] = useState({
@@ -89,7 +98,7 @@ export default function AgencyRecruitment() {
         <Card className="mt-16 bg-zinc-800 border-zinc-700">
           <CardHeader className="text-center">
             <CardTitle className="text-3xl font-bold flex items-center justify-center gap-2">
-              <Briefcase className="w-8 h-8" />
+              <Briefcase className="w-8 h-8 text-blue-500" />
               Create New Job Posting
             </CardTitle>
           </CardHeader>
@@ -97,7 +106,10 @@ export default function AgencyRecruitment() {
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <Label htmlFor="jobTitle">Job Title</Label>
+                  <Label htmlFor="jobTitle" className="flex items-center gap-2">
+                    <Briefcase className="w-4 h-4 text-blue-500" />
+                    Job Title
+                  </Label>
                   <Input
                     id="jobTitle"
                     name="jobTitle"
@@ -111,7 +123,13 @@ export default function AgencyRecruitment() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="department">Department</Label>
+                  <Label
+                    htmlFor="department"
+                    className="flex items-center gap-2"
+                  >
+                    <Users className="w-4 h-4 text-green-500" />
+                    Department
+                  </Label>
                   <Input
                     id="department"
                     name="department"
@@ -125,7 +143,13 @@ export default function AgencyRecruitment() {
                 </div>
 
                 <div className="space-y-2 md:col-span-2">
-                  <Label htmlFor="jobDescription">Job Description</Label>
+                  <Label
+                    htmlFor="jobDescription"
+                    className="flex items-center gap-2"
+                  >
+                    <FileText className="w-4 h-4 text-yellow-500" />
+                    Job Description
+                  </Label>
                   <Textarea
                     id="jobDescription"
                     name="jobDescription"
@@ -138,7 +162,13 @@ export default function AgencyRecruitment() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="requiredSkills">Required Skills</Label>
+                  <Label
+                    htmlFor="requiredSkills"
+                    className="flex items-center gap-2"
+                  >
+                    <Code className="w-4 h-4 text-purple-500" />
+                    Required Skills
+                  </Label>
                   <Input
                     id="requiredSkills"
                     name="requiredSkills"
@@ -152,7 +182,13 @@ export default function AgencyRecruitment() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="experienceLevel">Experience Level</Label>
+                  <Label
+                    htmlFor="experienceLevel"
+                    className="flex items-center gap-2"
+                  >
+                    <Award className="w-4 h-4 text-orange-500" />
+                    Experience Level
+                  </Label>
                   <Select
                     value={formData.experienceLevel}
                     onValueChange={(value) =>
@@ -171,7 +207,10 @@ export default function AgencyRecruitment() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="location">Location</Label>
+                  <Label htmlFor="location" className="flex items-center gap-2">
+                    <MapPin className="w-4 h-4 text-red-500" />
+                    Location
+                  </Label>
                   <Input
                     id="location"
                     name="location"
@@ -185,7 +224,13 @@ export default function AgencyRecruitment() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="salaryRange">Salary Range</Label>
+                  <Label
+                    htmlFor="salaryRange"
+                    className="flex items-center gap-2"
+                  >
+                    <DollarSign className="w-4 h-4 text-green-500" />
+                    Salary Range
+                  </Label>
                   <Input
                     id="salaryRange"
                     name="salaryRange"
@@ -199,7 +244,11 @@ export default function AgencyRecruitment() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="applicationDeadline">
+                  <Label
+                    htmlFor="applicationDeadline"
+                    className="flex items-center gap-2"
+                  >
+                    <Calendar className="w-4 h-4 text-blue-500" />
                     Application Deadline
                   </Label>
                   <Input

@@ -5,7 +5,19 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Pencil, Trash2 } from "lucide-react";
+import {
+  Pencil,
+  Trash2,
+  Briefcase,
+  Users,
+  FileText,
+  Code,
+  Award,
+  MapPin,
+  DollarSign,
+  Calendar,
+  Save,
+} from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -71,13 +83,37 @@ export default function Setting() {
     });
   };
 
+  const getIconForField = (field) => {
+    switch (field) {
+      case "jobTitle":
+        return <Briefcase className="h-4 w-4" />; // No color
+      case "department":
+        return <Users className="h-4 w-4" />; // No color
+      case "jobDescription":
+        return <FileText className="h-4 w-4" />; // No color
+      case "requiredSkills":
+        return <Code className="h-4 w-4" />; // No color
+      case "experienceLevel":
+        return <Award className="h-4 w-4" />; // No color
+      case "location":
+        return <MapPin className="h-4 w-4" />; // No color
+      case "salaryRange":
+        return <DollarSign className="h-4 w-4" />; // No color
+      case "applicationDeadline":
+        return <Calendar className="h-4 w-4" />; // No color
+      default:
+        return null;
+    }
+  };
+
   return (
-    <div className="pt-24 px-8 lg:px-24 min-h-screen bg-zinc-900">
+    <div className="pt-24 px-8 lg:px-24 min-h-screen bg-zinc-950">
       <Toaster position="top-center" />
-      <h2 className="text-3xl font-bold mb-8 text-center text-gray-100">
+      <h2 className="text-3xl font-bold mb-8 text-center text-gray-100 flex items-center justify-center">
+        <Briefcase className="h-8 w-8 text-blue-500 mr-2" />
         Job Postings
       </h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {jobPostings.length > 0 ? (
           jobPostings.map((job) => (
             <Card
@@ -91,7 +127,7 @@ export default function Setting() {
                   className="text-gray-400 hover:text-gray-100 transition-colors duration-200"
                   onClick={() => handleEdit(job.id)}
                 >
-                  <Pencil className="h-4 w-4" />
+                  <Pencil className="h-4 w-4 text-yellow-500" />
                   <span className="sr-only">Edit job posting</span>
                 </Button>
                 <Button
@@ -100,7 +136,7 @@ export default function Setting() {
                   className="text-gray-400 hover:text-red-500 transition-colors duration-200"
                   onClick={() => handleDelete(job.id)}
                 >
-                  <Trash2 className="h-4 w-4" />
+                  <Trash2 className="h-4 w-4 text-red-500" />
                   <span className="sr-only">Delete job posting</span>
                 </Button>
               </div>
@@ -110,9 +146,10 @@ export default function Setting() {
                     <>
                       <Label
                         htmlFor={`jobTitle-${job.id}`}
-                        className="block mb-2 text-sm font-medium text-gray-300"
+                        className="block mb-2 text-sm font-medium text-gray-300 flex items-center"
                       >
-                        Job Title
+                        {getIconForField("jobTitle")}
+                        <span className="ml-2">Job Title</span>
                       </Label>
                       <Input
                         id={`jobTitle-${job.id}`}
@@ -124,7 +161,10 @@ export default function Setting() {
                       />
                     </>
                   ) : (
-                    job.jobTitle
+                    <div className="flex items-center">
+                      {getIconForField("jobTitle")}
+                      <span className="ml-2">{job.jobTitle}</span>
+                    </div>
                   )}
                 </CardTitle>
               </CardHeader>
@@ -136,9 +176,12 @@ export default function Setting() {
                       <div key={key}>
                         <Label
                           htmlFor={`${key}-${job.id}`}
-                          className="block mb-1 text-sm font-medium text-gray-300"
+                          className="block mb-1 text-sm font-medium text-gray-300 flex items-center"
                         >
-                          {key.charAt(0).toUpperCase() + key.slice(1)}
+                          {getIconForField(key)}
+                          <span className="ml-2">
+                            {key.charAt(0).toUpperCase() + key.slice(1)}
+                          </span>
                         </Label>
                         {editingId === job.id ? (
                           key === "jobDescription" ? (
@@ -203,8 +246,9 @@ export default function Setting() {
                 {editingId === job.id && (
                   <Button
                     onClick={() => handleSave(job.id)}
-                    className="mt-6 w-full bg-zinc-700 hover:bg-zinc-600 text-gray-100"
+                    className="mt-6 w-full bg-zinc-700 hover:bg-zinc-600 text-gray-100 flex items-center justify-center"
                   >
+                    <Save className="h-4 w-4 text-green-500 mr-2" />
                     Save Changes
                   </Button>
                 )}
