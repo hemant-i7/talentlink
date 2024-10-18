@@ -154,8 +154,8 @@ export default function UserDashboard() {
                   </p>
                   <p className="flex items-center text-sm text-zinc-400">
                     <Link className="mr-2 text-pink-400" size={16} />
-                    <a
-                      href={application.socialLink}
+                    <a 
+                      href={application.socialLink} 
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-blue-400 hover:underline"
