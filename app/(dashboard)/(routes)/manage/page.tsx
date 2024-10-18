@@ -1,4 +1,5 @@
 "use client";
+
 import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -13,6 +14,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
+import { toast, Toaster } from "react-hot-toast";
 
 export default function Setting() {
   const [jobPostings, setJobPostings] = useState([]);
@@ -33,6 +35,16 @@ export default function Setting() {
   const handleSave = (id) => {
     setEditingId(null);
     localStorage.setItem("jobPostings", JSON.stringify(jobPostings));
+    toast.success("Saved successfully", {
+      style: {
+        background: "#10B981",
+        color: "#FFFFFF",
+      },
+      iconTheme: {
+        primary: "#FFFFFF",
+        secondary: "#10B981",
+      },
+    });
   };
 
   const handleChange = (id, field, value) => {
@@ -47,25 +59,36 @@ export default function Setting() {
     const updatedPostings = jobPostings.filter((job) => job.id !== id);
     setJobPostings(updatedPostings);
     localStorage.setItem("jobPostings", JSON.stringify(updatedPostings));
+    toast.error("Deleted successfully", {
+      style: {
+        background: "#EF4444",
+        color: "#FFFFFF",
+      },
+      iconTheme: {
+        primary: "#FFFFFF",
+        secondary: "#EF4444",
+      },
+    });
   };
 
   return (
-    <div className="pt-24 px-8 lg:px-24">
-      <h2 className="text-2xl font-bold mb-6 text-center text-gray-100">
+    <div className="pt-24 px-8 lg:px-24 min-h-screen bg-zinc-900">
+      <Toaster position="top-center" />
+      <h2 className="text-3xl font-bold mb-8 text-center text-gray-100">
         Job Postings
       </h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {jobPostings.length > 0 ? ( // Check if there are job postings to display
+        {jobPostings.length > 0 ? (
           jobPostings.map((job) => (
             <Card
               key={job.id}
-              className="bg-gray-800 text-gray-100 relative flex flex-col"
+              className="bg-zinc-800 text-gray-100 relative flex flex-col shadow-lg hover:shadow-xl transition-shadow duration-300"
             >
               <div className="absolute top-2 right-2 flex space-x-2">
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="text-gray-400 hover:text-gray-100"
+                  className="text-gray-400 hover:text-gray-100 transition-colors duration-200"
                   onClick={() => handleEdit(job.id)}
                 >
                   <Pencil className="h-4 w-4" />
@@ -74,7 +97,7 @@ export default function Setting() {
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="text-gray-400 hover:text-red-500"
+                  className="text-gray-400 hover:text-red-500 transition-colors duration-200"
                   onClick={() => handleDelete(job.id)}
                 >
                   <Trash2 className="h-4 w-4" />
@@ -87,7 +110,7 @@ export default function Setting() {
                     <>
                       <Label
                         htmlFor={`jobTitle-${job.id}`}
-                        className="block mb-2"
+                        className="block mb-2 text-sm font-medium text-gray-300"
                       >
                         Job Title
                       </Label>
@@ -97,7 +120,7 @@ export default function Setting() {
                         onChange={(e) =>
                           handleChange(job.id, "jobTitle", e.target.value)
                         }
-                        className="bg-gray-700 text-gray-100"
+                        className="bg-zinc-700 text-gray-100 border-zinc-600 focus:border-zinc-500 focus:ring-zinc-500"
                       />
                     </>
                   ) : (
@@ -106,22 +129,26 @@ export default function Setting() {
                 </CardTitle>
               </CardHeader>
               <CardContent className="flex-grow">
-                <div className="space-y-2">
+                <div className="space-y-4">
                   {Object.entries(job).map(([key, value]) => {
                     if (key === "id" || key === "jobTitle") return null;
                     return (
                       <div key={key}>
-                        <strong>
-                          {key.charAt(0).toUpperCase() + key.slice(1)}:
-                        </strong>{" "}
+                        <Label
+                          htmlFor={`${key}-${job.id}`}
+                          className="block mb-1 text-sm font-medium text-gray-300"
+                        >
+                          {key.charAt(0).toUpperCase() + key.slice(1)}
+                        </Label>
                         {editingId === job.id ? (
                           key === "jobDescription" ? (
                             <Textarea
+                              id={`${key}-${job.id}`}
                               value={value}
                               onChange={(e) =>
                                 handleChange(job.id, key, e.target.value)
                               }
-                              className="bg-gray-700 text-gray-100 mt-1"
+                              className="bg-zinc-700 text-gray-100 border-zinc-600 focus:border-zinc-500 focus:ring-zinc-500 min-h-[100px]"
                             />
                           ) : key === "experienceLevel" ? (
                             <Select
@@ -130,10 +157,13 @@ export default function Setting() {
                                 handleChange(job.id, key, newValue)
                               }
                             >
-                              <SelectTrigger className="bg-gray-700 text-gray-100 mt-1">
+                              <SelectTrigger
+                                id={`${key}-${job.id}`}
+                                className="bg-zinc-700 text-gray-100 border-zinc-600"
+                              >
                                 <SelectValue placeholder="Select experience level" />
                               </SelectTrigger>
-                              <SelectContent>
+                              <SelectContent className="bg-zinc-700 text-gray-100 border-zinc-600">
                                 <SelectItem value="entry">
                                   Entry Level
                                 </SelectItem>
@@ -145,31 +175,36 @@ export default function Setting() {
                             </Select>
                           ) : key === "applicationDeadline" ? (
                             <Input
+                              id={`${key}-${job.id}`}
                               type="date"
                               value={value}
                               onChange={(e) =>
                                 handleChange(job.id, key, e.target.value)
                               }
-                              className="bg-gray-700 text-gray-100 mt-1"
+                              className="bg-zinc-700 text-gray-100 border-zinc-600 focus:border-zinc-500 focus:ring-zinc-500"
                             />
                           ) : (
                             <Input
+                              id={`${key}-${job.id}`}
                               value={value}
                               onChange={(e) =>
                                 handleChange(job.id, key, e.target.value)
                               }
-                              className="bg-gray-700 text-gray-100 mt-1"
+                              className="bg-zinc-700 text-gray-100 border-zinc-600 focus:border-zinc-500 focus:ring-zinc-500"
                             />
                           )
                         ) : (
-                          value
+                          <p className="text-gray-300">{value}</p>
                         )}
                       </div>
                     );
                   })}
                 </div>
                 {editingId === job.id && (
-                  <Button onClick={() => handleSave(job.id)} className="mt-4">
+                  <Button
+                    onClick={() => handleSave(job.id)}
+                    className="mt-6 w-full bg-zinc-700 hover:bg-zinc-600 text-gray-100"
+                  >
                     Save Changes
                   </Button>
                 )}
@@ -177,7 +212,7 @@ export default function Setting() {
             </Card>
           ))
         ) : (
-          <div className="text-gray-100 text-center">
+          <div className="col-span-full text-gray-100 text-center text-lg">
             No job postings available.
           </div>
         )}

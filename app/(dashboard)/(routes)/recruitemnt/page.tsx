@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Input } from "@/components/input";
+import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import {
@@ -12,6 +12,9 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { toast, Toaster } from "react-hot-toast";
+import { Briefcase } from "lucide-react";
 
 export default function AgencyRecruitment() {
   const [formData, setFormData] = useState({
@@ -58,6 +61,14 @@ export default function AgencyRecruitment() {
     setJobPostings(updatedPostings);
     localStorage.setItem("jobPostings", JSON.stringify(updatedPostings));
     console.log("Job posting submitted:", newPosting);
+    toast.success("Job posted successfully!", {
+      icon: "🎉",
+      style: {
+        borderRadius: "10px",
+        background: "#45f248",
+        color: "#fff",
+      },
+    });
     setFormData({
       id: "",
       jobTitle: "",
@@ -72,135 +83,149 @@ export default function AgencyRecruitment() {
   };
 
   return (
-    <div className="pt-20 mx-10 px-10 py-10 bg-zinc-900 min-h-screen">
-      <h2 className="text-2xl font-bold text-center py-5 justify-center text-white mb-6">
-        Create New Job Posting
-      </h2>
-      <form
-        onSubmit={handleSubmit}
-        className="grid grid-cols-1 md:grid-cols-2 gap-6"
-      >
-        <div className="bg-zinc-800 p-4 rounded">
-          <Label htmlFor="jobTitle">Job Title</Label>
-          <Input
-            id="jobTitle"
-            name="jobTitle"
-            type="text"
-            value={formData.jobTitle}
-            onChange={handleChange}
-            placeholder="e.g., Senior Video Editor"
-            className="mt-2 w-full"
-            required
-          />
-        </div>
+    <div className="min-h-screen bg-zinc-950 text-zinc-100 py-12 px-4 sm:px-6 lg:px-8">
+      <Toaster position="top-center" />
+      <div className="max-w-4xl mx-auto">
+        <Card className="mt-16 bg-zinc-800 border-zinc-700">
+          <CardHeader className="text-center">
+            <CardTitle className="text-3xl font-bold flex items-center justify-center gap-2">
+              <Briefcase className="w-8 h-8" />
+              Create New Job Posting
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-2">
+                  <Label htmlFor="jobTitle">Job Title</Label>
+                  <Input
+                    id="jobTitle"
+                    name="jobTitle"
+                    type="text"
+                    value={formData.jobTitle}
+                    onChange={handleChange}
+                    placeholder="e.g., Senior Video Editor"
+                    className="bg-zinc-700 border-zinc-600 text-zinc-100 placeholder-zinc-400"
+                    required
+                  />
+                </div>
 
-        <div className="bg-zinc-800 p-4 rounded">
-          <Label htmlFor="department">Department</Label>
-          <Input
-            id="department"
-            name="department"
-            type="text"
-            value={formData.department}
-            onChange={handleChange}
-            placeholder="e.g., Creative, Marketing"
-            className="mt-2 w-full"
-            required
-          />
-        </div>
+                <div className="space-y-2">
+                  <Label htmlFor="department">Department</Label>
+                  <Input
+                    id="department"
+                    name="department"
+                    type="text"
+                    value={formData.department}
+                    onChange={handleChange}
+                    placeholder="e.g., Creative, Marketing"
+                    className="bg-zinc-700 border-zinc-600 text-zinc-100 placeholder-zinc-400"
+                    required
+                  />
+                </div>
 
-        <div className="bg-zinc-800 p-4 rounded md:col-span-2">
-          <Label htmlFor="jobDescription">Job Description</Label>
-          <Textarea
-            id="jobDescription"
-            name="jobDescription"
-            value={formData.jobDescription}
-            onChange={handleChange}
-            placeholder="Provide a detailed job description"
-            className="mt-2 w-full"
-            required
-          />
-        </div>
+                <div className="space-y-2 md:col-span-2">
+                  <Label htmlFor="jobDescription">Job Description</Label>
+                  <Textarea
+                    id="jobDescription"
+                    name="jobDescription"
+                    value={formData.jobDescription}
+                    onChange={handleChange}
+                    placeholder="Provide a detailed job description"
+                    className="bg-zinc-700 border-zinc-600 text-zinc-100 placeholder-zinc-400 min-h-[100px]"
+                    required
+                  />
+                </div>
 
-        <div className="bg-zinc-800 p-4 rounded">
-          <Label htmlFor="requiredSkills">Required Skills</Label>
-          <Input
-            id="requiredSkills"
-            name="requiredSkills"
-            type="text"
-            value={formData.requiredSkills}
-            onChange={handleChange}
-            placeholder="e.g., Premiere Pro, Photoshop"
-            className="mt-2 w-full"
-            required
-          />
-        </div>
+                <div className="space-y-2">
+                  <Label htmlFor="requiredSkills">Required Skills</Label>
+                  <Input
+                    id="requiredSkills"
+                    name="requiredSkills"
+                    type="text"
+                    value={formData.requiredSkills}
+                    onChange={handleChange}
+                    placeholder="e.g., Premiere Pro, Photoshop"
+                    className="bg-zinc-700 border-zinc-600 text-zinc-100 placeholder-zinc-400"
+                    required
+                  />
+                </div>
 
-        <div className="bg-zinc-800 p-4 rounded">
-          <Label htmlFor="experienceLevel">Experience Level</Label>
-          <Select
-            value={formData.experienceLevel}
-            onValueChange={(value) =>
-              handleSelectChange("experienceLevel", value)
-            }
-          >
-            <SelectTrigger className="mt-2 w-full">
-              <SelectValue placeholder="Select experience level" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="entry">Entry Level</SelectItem>
-              <SelectItem value="mid">Mid Level</SelectItem>
-              <SelectItem value="senior">Senior Level</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
+                <div className="space-y-2">
+                  <Label htmlFor="experienceLevel">Experience Level</Label>
+                  <Select
+                    value={formData.experienceLevel}
+                    onValueChange={(value) =>
+                      handleSelectChange("experienceLevel", value)
+                    }
+                  >
+                    <SelectTrigger className="bg-zinc-700 border-zinc-600 text-zinc-100">
+                      <SelectValue placeholder="Select experience level" />
+                    </SelectTrigger>
+                    <SelectContent className="bg-zinc-700 border-zinc-600 text-zinc-100">
+                      <SelectItem value="entry">Entry Level</SelectItem>
+                      <SelectItem value="mid">Mid Level</SelectItem>
+                      <SelectItem value="senior">Senior Level</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
 
-        <div className="bg-zinc-800 p-4 rounded">
-          <Label htmlFor="location">Location</Label>
-          <Input
-            id="location"
-            name="location"
-            type="text"
-            value={formData.location}
-            onChange={handleChange}
-            placeholder="e.g., Remote, New York, London"
-            className="mt-2 w-full"
-            required
-          />
-        </div>
+                <div className="space-y-2">
+                  <Label htmlFor="location">Location</Label>
+                  <Input
+                    id="location"
+                    name="location"
+                    type="text"
+                    value={formData.location}
+                    onChange={handleChange}
+                    placeholder="e.g., Remote, New York, London"
+                    className="bg-zinc-700 border-zinc-600 text-zinc-100 placeholder-zinc-400"
+                    required
+                  />
+                </div>
 
-        <div className="bg-zinc-800 p-4 rounded">
-          <Label htmlFor="salaryRange">Salary Range</Label>
-          <Input
-            id="salaryRange"
-            name="salaryRange"
-            type="text"
-            value={formData.salaryRange}
-            onChange={handleChange}
-            placeholder="e.g., $50,000 - $70,000"
-            className="mt-2 w-full"
-            required
-          />
-        </div>
+                <div className="space-y-2">
+                  <Label htmlFor="salaryRange">Salary Range</Label>
+                  <Input
+                    id="salaryRange"
+                    name="salaryRange"
+                    type="text"
+                    value={formData.salaryRange}
+                    onChange={handleChange}
+                    placeholder="e.g., $50,000 - $70,000"
+                    className="bg-zinc-700 border-zinc-600 text-zinc-100 placeholder-zinc-400"
+                    required
+                  />
+                </div>
 
-        <div className="bg-zinc-800 p-4 rounded">
-          <Label htmlFor="applicationDeadline">Application Deadline</Label>
-          <Input
-            id="applicationDeadline"
-            name="applicationDeadline"
-            type="date"
-            value={formData.applicationDeadline}
-            onChange={handleChange}
-            className="mt-2 w-full"
-            required
-          />
-        </div>
+                <div className="space-y-2">
+                  <Label htmlFor="applicationDeadline">
+                    Application Deadline
+                  </Label>
+                  <Input
+                    id="applicationDeadline"
+                    name="applicationDeadline"
+                    type="date"
+                    value={formData.applicationDeadline}
+                    onChange={handleChange}
+                    className="bg-zinc-700 border-zinc-600 text-zinc-100"
+                    required
+                  />
+                </div>
+              </div>
 
-        <div className="col-span-1 md:col-span-2 flex justify-center">
-          <Button type="submit" className="mt-4">
-            Post Job
-          </Button>
-        </div>
-      </form>
+              <div className="flex justify-center">
+                <Button
+                  type="submit"
+                  className="bg-zinc-600 hover:bg-zinc-500 text-zinc-100"
+                >
+                  Post Job
+                </Button>
+              </div>
+            </form>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 }
