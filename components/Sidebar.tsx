@@ -47,7 +47,7 @@ const routes = [
   },
   // New section for brand managers
   {
-    label: "Recruitemnt",
+    label: "Recruitment",
     icon: BriefcaseBusiness, // Replace with the actual icon
     href: "/recruitemnt",
     color: "text-red-500",
