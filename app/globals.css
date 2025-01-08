@@ -3,13 +3,15 @@
 @tailwind utilities;
 
 html,
-body, 
+body,
 :root {
   height: 100%;
   font-family: Arimal, Helvetica, sans-serif;
-  
 }
 
+*::-webkit-scrollbar {
+  display: none;
+}
 
 @layer utilities {
   .text-balance {
