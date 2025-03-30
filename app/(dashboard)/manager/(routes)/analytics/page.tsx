@@ -1,9 +1,6 @@
 "use client";
 
 import React from "react";
-import { UserButton } from "@clerk/nextjs";
-import { FloatingNavDemo } from "@/components/ui/Navbar";
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   BarChart,
@@ -35,7 +32,6 @@ const InfluencerAnalytics: React.FC = () => {
     <div className="pt-40 px-24">
       <div className="flex h-screen bg-black text-white">
         <div className="flex-1 overflow-auto">
-          <FloatingNavDemo />
           <main className="p-6">
             <h1 className="text-2xl font-bold mb-6">Analytics Dashboard</h1>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">

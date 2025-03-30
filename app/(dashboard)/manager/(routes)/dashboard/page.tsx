@@ -1,13 +1,19 @@
 // pages/dashboard.tsx
+"use client";
+
 import React from "react";
-import { UserButton } from "@clerk/nextjs";
 import Sidebar from "@/components/Sidebar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { ArrowRight } from "lucide-react"; // For icons
+import { ArrowRight, LogIn } from "lucide-react"; // For icons
+import { useSession, signIn } from "next-auth/react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const Dashboard: React.FC = () => {
+  const { data: session, status } = useSession();
+  const isAuthenticated = status === "authenticated";
+
   return (
     <div className="flex min-h-screen">
 
@@ -15,7 +21,22 @@ const Dashboard: React.FC = () => {
       <div className="flex-1 p-8  px-20 space-y-12">
         <div className="flex justify-between items-center">
           <h1 className="text-3xl font-bold"></h1>
-          <UserButton />
+          {isAuthenticated && session.user ? (
+            <Avatar>
+              <AvatarImage src={session.user.image || undefined} alt={session.user.name || "User"} />
+              <AvatarFallback>{session.user.name?.charAt(0) || "U"}</AvatarFallback>
+            </Avatar>
+          ) : (
+            <Button
+              variant="outline"
+              size="sm"
+              className="ml-2"
+              onClick={() => signIn('google')}
+            >
+              <LogIn className="mr-2 h-4 w-4" />
+              Sign In
+            </Button>
+          )}
         </div>
 
         {/* Introduction Section */}
@@ -24,7 +45,7 @@ const Dashboard: React.FC = () => {
             <h2 className="text-4xl font-bold">Connecting Influencers with Brands</h2>
             <p className="mt-4 text-lg">
               TalentLink is your go-to platform for managing sponsorships and posting influencer job
-              openings. Our mission is to bridge the gap between brands and talented influencers, 
+              openings. Our mission is to bridge the gap between brands and talented influencers,
               helping them create valuable collaborations.
             </p>
             <Button variant="outline" size="lg" className="mt-6">
@@ -33,7 +54,7 @@ const Dashboard: React.FC = () => {
             </Button>
           </CardContent>
         </Card>
-        
+
 
         {/* Key Features Section */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -62,13 +83,13 @@ const Dashboard: React.FC = () => {
               <h3 className="text-2xl font-semibold">Collaborate Effectively</h3>
               <Separator className="my-4" />
               <p className="text-muted-foreground">
-                Use our platform’s tools to easily communicate and collaborate with influencers for impactful campaigns.
+                Use our platform's tools to easily communicate and collaborate with influencers for impactful campaigns.
               </p>
             </CardContent>
           </Card>
         </div>
 
-        
+
       </div>
     </div>
   );

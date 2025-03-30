@@ -1,19 +1,22 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { UserButton } from "@clerk/nextjs";
 import { usePathname, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { ArrowRight, ToggleLeft, ToggleRight } from "lucide-react";
+import { ArrowRight, ToggleLeft, ToggleRight, LogIn } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
+import { useSession, signIn } from "next-auth/react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const Dashboard: React.FC = () => {
   const pathname = usePathname();
   const router = useRouter();
   const [isManager, setIsManager] = useState(true);
+  const { data: session, status } = useSession();
+  const isAuthenticated = status === "authenticated";
 
   useEffect(() => {
     // Set initial state based on the current route
@@ -57,7 +60,22 @@ const Dashboard: React.FC = () => {
                 )}
               </Label>
             </div>
-            <UserButton />
+            {isAuthenticated && session.user ? (
+              <Avatar>
+                <AvatarImage src={session.user.image || undefined} alt={session.user.name || "User"} />
+                <AvatarFallback>{session.user.name?.charAt(0) || "U"}</AvatarFallback>
+              </Avatar>
+            ) : (
+              <Button
+                variant="outline"
+                size="sm"
+                className="ml-2"
+                onClick={() => signIn('google')}
+              >
+                <LogIn className="mr-2 h-4 w-4" />
+                Sign In
+              </Button>
+            )}
           </div>
         </div>
 

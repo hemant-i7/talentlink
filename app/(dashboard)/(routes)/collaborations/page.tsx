@@ -15,7 +15,6 @@ import {
   Clock,
   Send,
 } from "lucide-react";
-import { useUser } from "@clerk/clerk-react";
 
 interface Application {
   _id: string;
@@ -31,21 +30,16 @@ interface Application {
 }
 
 export default function UserDashboard() {
-  const { user, isLoaded } = useUser();
   const [applications, setApplications] = useState<Application[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchApplications = async () => {
-      if (!user) return;
       setLoading(true);
       setError(null);
       try {
-        console.log("Fetching applications for user:", user.id);
-        const response = await axios.post("/api/application/user", {
-          userId: user.id,
-        });
+        const response = await axios.get("/api/application/fetch");
         console.log("API Response:", response.data);
         if (response.data.success) {
           setApplications(response.data.applications);
@@ -58,8 +52,8 @@ export default function UserDashboard() {
         console.error("Error fetching applications:", err);
         setError(
           err.response?.data?.message ||
-            err.message ||
-            "An unexpected error occurred"
+          err.message ||
+          "An unexpected error occurred"
         );
       } finally {
         setLoading(false);
@@ -67,35 +61,7 @@ export default function UserDashboard() {
     };
 
     fetchApplications();
-  }, [user]);
-
-  if (!isLoaded) {
-    return (
-      <div className="min-h-screen bg-zinc-900 text-white flex items-center justify-center">
-        <div className="text-center">
-          <Loader2 className="h-12 w-12 animate-spin text-purple-500 mx-auto mb-4" />
-          <h2 className="text-2xl font-semibold">
-            Loading user information...
-          </h2>
-        </div>
-      </div>
-    );
-  }
-
-  if (!user) {
-    return (
-      <div className="min-h-screen bg-zinc-900 text-white pt-40 px-8 md:px-24 flex items-center justify-center">
-        <Card className="bg-zinc-800 border-zinc-700 p-8 max-w-md w-full">
-          <CardTitle className="text-2xl font-bold mb-4 text-center">
-            Access Denied
-          </CardTitle>
-          <p className="text-center text-zinc-400">
-            Please log in to view your applications.
-          </p>
-        </Card>
-      </div>
-    );
-  }
+  }, []);
 
   return (
     <div className="min-h-screen bg-zinc-950 text-white pt-40 px-8 md:px-24">
@@ -154,8 +120,8 @@ export default function UserDashboard() {
                   </p>
                   <p className="flex items-center text-sm text-zinc-400">
                     <Link className="mr-2 text-pink-400" size={16} />
-                    <a 
-                      href={application.socialLink} 
+                    <a
+                      href={application.socialLink}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-blue-400 hover:underline"

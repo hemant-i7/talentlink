@@ -10,7 +10,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { useUser } from "@clerk/clerk-react";
 import {
   Dialog,
   DialogContent,
@@ -65,7 +64,6 @@ export default function ManagerDashboard() {
   >([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const { user, isLoaded } = useUser();
   const [selectedApplication, setSelectedApplication] =
     useState<Application | null>(null);
   const [searchTerm, setSearchTerm] = useState("");

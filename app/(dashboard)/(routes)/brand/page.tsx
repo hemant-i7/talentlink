@@ -14,7 +14,7 @@ import {
   Link as LinkIcon,
   Send,
 } from "lucide-react";
-import { useUser } from "@clerk/clerk-react";
+import { useSession } from "next-auth/react";
 import {
   Dialog,
   DialogContent,
@@ -34,7 +34,10 @@ interface Brand {
 }
 
 export default function UserDashboard() {
-  const { user, isLoaded } = useUser();
+  const { data: session, status } = useSession();
+  const isLoaded = status !== "loading";
+  const user = session?.user;
+
   const [searchTerm, setSearchTerm] = useState("");
   const [brands, setBrands] = useState<Brand[]>([]);
   const [loading, setLoading] = useState(false);
@@ -73,11 +76,13 @@ export default function UserDashboard() {
   };
 
   const handleApplicationSubmit = async () => {
-    if (!selectedBrand || !user) return;
+    if (!selectedBrand) return;
+
+    const userId = user?.email || "anonymous";
 
     try {
       const response = await axios.post("/api/application/add", {
-        userId: user.id,
+        userId,
         brandId: selectedBrand._id,
         brandName: selectedBrand.name,
         message: applicationMessage,
@@ -115,10 +120,7 @@ export default function UserDashboard() {
     return <p>Loading user information...</p>;
   }
 
-  if (!user) {
-    return <p>Please log in to view this page.</p>;
-  }
-
+  // We allow all users to view the page now, even without authentication
   return (
     <div className="pt-40 px-24 h-screen bg-zinc-950 text-white overflow-auto">
       <Toaster position="top-center" toastOptions={{ duration: 5000 }} />
@@ -184,11 +186,6 @@ export default function UserDashboard() {
               Apply for Sponsorship
               {selectedBrand && ` - ${selectedBrand.name}`}
             </DialogTitle>
-            <Button
-              variant="ghost"
-              className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground"
-              onClick={() => setIsModalOpen(false)}
-            ></Button>
           </DialogHeader>
           <div className="grid gap-4 py-4">
             <div className="grid grid-cols-4 items-center gap-4">
@@ -250,19 +247,19 @@ export default function UserDashboard() {
               </Label>
               <Textarea
                 id="message"
-                placeholder={
-                  selectedBrand
-                    ? `Why do you want sponsorship from ${selectedBrand.name}?`
-                    : "Why do you want this sponsorship?"
-                }
                 value={applicationMessage}
                 onChange={(e) => setApplicationMessage(e.target.value)}
                 className="col-span-3 bg-zinc-700 text-white"
+                rows={4}
               />
             </div>
           </div>
           <DialogFooter>
-            <Button onClick={handleApplicationSubmit} className="w-full">
+            <Button
+              type="submit"
+              onClick={handleApplicationSubmit}
+              className="bg-gradient-to-r from-blue-500 to-purple-500"
+            >
               Submit Application
             </Button>
           </DialogFooter>

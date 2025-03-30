@@ -1,11 +1,15 @@
+"use client";
+
 import React from "react";
 import Image from "next/image"; // Importing Next.js Image component
 import Link from "next/link";
 import { Button } from "./button";
-import { SignIn, SignInButton } from "@clerk/nextjs";
-import { CircleDollarSign, User } from "lucide-react";
+import { CircleDollarSign, User, LogIn } from "lucide-react";
+import { useSession, signIn } from "next-auth/react";
 
 const Hero = () => {
+  const { data: session, status } = useSession();
+
   return (
     <div className="mx-auto mt-20 lg:mt-24 max-w-7xl px-4 sm:px-6 lg:px-8 pt-20 pb-16 text-center lg:pt-24">
       {/* Logo added at the top of the Hero section */}
@@ -38,7 +42,7 @@ const Hero = () => {
 
       <div className="mt-20 lg:mt-12 flex flex-col justify-center gap-y-5 sm:mt-10 sm:flex-row sm:gap-y-0 sm:gap-x-6">
         {/* Button for Influencer Dashboard */}
-        <Link href="/sign-up">
+        <Link href="/dashboard">
           <Button variant="outline" className="flex items-center px-10 py-7 text-lg rounded-3xl">
             <CircleDollarSign className="mr-2" /> {/* Adjust the icon as needed */}
             Find a Brand
@@ -46,12 +50,23 @@ const Hero = () => {
         </Link>
 
         {/* Button for Brand Manager Dashboard */}
-        <Link href="/sign-up">
+        <Link href="/manager/dashboard">
           <Button variant="outline" className="flex items-center px-10 py-7 text-lg rounded-3xl">
             <User className="mr-2" /> {/* Adjust the icon as needed */}
             Find an Influencer
           </Button>
         </Link>
+
+        {!session && (
+          <Button
+            variant="default"
+            className="flex items-center px-10 py-7 text-lg rounded-3xl bg-gradient-to-r from-blue-500 to-purple-500"
+            onClick={() => signIn('google')}
+          >
+            <LogIn className="mr-2" />
+            Sign in with Google
+          </Button>
+        )}
       </div>
 
       <div className="mt-8"></div>
