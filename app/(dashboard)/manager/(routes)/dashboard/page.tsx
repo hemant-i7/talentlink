@@ -1,18 +1,69 @@
 // pages/dashboard.tsx
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from 'react';
 import Sidebar from "@/components/Sidebar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { ArrowRight, LogIn } from "lucide-react"; // For icons
-import { useSession, signIn } from "next-auth/react";
+import { ArrowRight, LogIn, LogOut } from "lucide-react"; // For icons
+import { useSession, signIn, signOut } from "next-auth/react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { VerificationModal } from '@/components/ui/VerificationModal';
+import { useRouter } from 'next/navigation';
 
 const Dashboard: React.FC = () => {
   const { data: session, status } = useSession();
-  const isAuthenticated = status === "authenticated";
+  const [showVerification, setShowVerification] = useState(false);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (status === 'unauthenticated') {
+      router.push('/');
+    } else if (status === 'authenticated') {
+      // Check if user is verified (you'll need to implement this check based on your database)
+      // For now, we'll show the verification modal
+      setShowVerification(true);
+    }
+  }, [status, router]);
+
+  const handleVerifyEmail = async (email: string) => {
+    try {
+      const response = await fetch('/api/verify-business-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }),
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error || 'Failed to verify email');
+      }
+
+      // Here you would typically update your database to mark the user as verified
+      // For now, we'll just close the modal
+      setShowVerification(false);
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  const handleSignOut = async () => {
+    try {
+      await signOut({
+        redirect: true,
+        callbackUrl: '/' // This will redirect to the landing page after sign out
+      });
+    } catch (error) {
+      console.error('Error signing out:', error);
+    }
+  };
+
+  if (status === 'loading') {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="flex min-h-screen">
@@ -21,7 +72,7 @@ const Dashboard: React.FC = () => {
       <div className="flex-1 p-8  px-20 space-y-12">
         <div className="flex justify-between items-center">
           <h1 className="text-3xl font-bold"></h1>
-          {isAuthenticated && session.user ? (
+          {session && session.user ? (
             <Avatar>
               <AvatarImage src={session.user.image || undefined} alt={session.user.name || "User"} />
               <AvatarFallback>{session.user.name?.charAt(0) || "U"}</AvatarFallback>
@@ -37,6 +88,14 @@ const Dashboard: React.FC = () => {
               Sign In
             </Button>
           )}
+          <Button
+            variant="outline"
+            onClick={handleSignOut}
+            className="flex items-center gap-2 text-red-600 hover:text-red-700 hover:bg-red-50"
+          >
+            <LogOut className="h-4 w-4" />
+            Sign Out
+          </Button>
         </div>
 
         {/* Introduction Section */}
@@ -91,6 +150,12 @@ const Dashboard: React.FC = () => {
 
 
       </div>
+
+      <VerificationModal
+        isOpen={showVerification}
+        onClose={() => setShowVerification(false)}
+        onVerify={handleVerifyEmail}
+      />
     </div>
   );
 };

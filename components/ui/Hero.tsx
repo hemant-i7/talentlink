@@ -42,31 +42,24 @@ const Hero = () => {
 
       <div className="mt-20 lg:mt-12 flex flex-col justify-center gap-y-5 sm:mt-10 sm:flex-row sm:gap-y-0 sm:gap-x-6">
         {/* Button for Influencer Dashboard */}
-        <Link href="/dashboard">
-          <Button variant="outline" className="flex items-center px-10 py-7 text-lg rounded-3xl">
-            <CircleDollarSign className="mr-2" /> {/* Adjust the icon as needed */}
-            Find a Brand
-          </Button>
-        </Link>
+        <Button
+          variant="outline"
+          className="flex items-center px-10 py-7 text-lg rounded-3xl"
+          onClick={() => signIn('google', { callbackUrl: '/dashboard' })}
+        >
+          <CircleDollarSign className="mr-2" />
+          Find a Brand
+        </Button>
 
         {/* Button for Brand Manager Dashboard */}
-        <Link href="/manager/dashboard">
-          <Button variant="outline" className="flex items-center px-10 py-7 text-lg rounded-3xl">
-            <User className="mr-2" /> {/* Adjust the icon as needed */}
-            Find an Influencer
-          </Button>
-        </Link>
-
-        {!session && (
-          <Button
-            variant="default"
-            className="flex items-center px-10 py-7 text-lg rounded-3xl bg-gradient-to-r from-blue-500 to-purple-500"
-            onClick={() => signIn('google')}
-          >
-            <LogIn className="mr-2" />
-            Sign in with Google
-          </Button>
-        )}
+        <Button
+          variant="outline"
+          className="flex items-center px-10 py-7 text-lg rounded-3xl"
+          onClick={() => signIn('google', { callbackUrl: '/manager/dashboard' })}
+        >
+          <User className="mr-2" />
+          Find an Influencer
+        </Button>
       </div>
 
       <div className="mt-8"></div>
