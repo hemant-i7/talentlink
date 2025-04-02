@@ -20,6 +20,7 @@ import {
 import ReactMarkdown from "react-markdown";
 import { toast } from "react-hot-toast";
 import jsPDF from "jspdf";
+import { Badge } from "@/components/ui/badge";
 
 export default function ContractGenerator() {
   const [formData, setFormData] = useState({
@@ -136,159 +137,147 @@ export default function ContractGenerator() {
   };
 
   return (
-    <div className="max-w-4xl mt-40 mx-auto p-4 space-y-6 dark:bg-zinc-900 dark:text-white">
-      <Card className="dark:bg-zinc-800 dark:border-zinc-700 shadow-lg">
-        <CardHeader className="bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-t-lg">
-          <CardTitle className="text-3xl font-bold text-center flex items-center justify-center space-x-2">
-            <FileText className="h-8 w-8 text-yellow-400" />
-            <span>AI Influencer Contract Generator</span>
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="pt-6">
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="space-y-2">
-                <Label
-                  htmlFor="brandName"
-                  className="dark:text-white flex items-center space-x-2"
-                >
-                  <Briefcase className="h-4 w-4 text-blue-500" />
-                  <span>Brand Name</span>
-                </Label>
-                <Input
-                  id="brandName"
-                  name="brandName"
-                  value={formData.brandName}
-                  onChange={handleInputChange}
-                  required
-                  className="dark:bg-zinc-700 dark:text-white focus:ring-2 focus:ring-indigo-500"
-                />
-              </div>
-              <div className="space-y-2">
-                <Label
-                  htmlFor="influencerName"
-                  className="dark:text-white flex items-center space-x-2"
-                >
-                  <User className="h-4 w-4 text-green-500" />
-                  <span>Influencer Name</span>
-                </Label>
-                <Input
-                  id="influencerName"
-                  name="influencerName"
-                  value={formData.influencerName}
-                  onChange={handleInputChange}
-                  required
-                  className="dark:bg-zinc-700 dark:text-white focus:ring-2 focus:ring-indigo-500"
-                />
-              </div>
+    <div className="min-h-screen bg-zinc-950 text-white pt-20 px-4 sm:px-6 lg:px-24">
+      <div className="max-w-4xl mx-auto">
+        <Card className="bg-zinc-800/50 border-zinc-700/50">
+          <CardHeader className="pb-6">
+            <div className="flex items-center justify-between">
+              <CardTitle className="text-2xl font-semibold text-zinc-100 flex items-center">
+                <FileText className="w-6 h-6 mr-2 text-zinc-400" />
+                AI Contract Generator
+              </CardTitle>
+              <Badge variant="outline" className="border-zinc-700 text-zinc-400">
+                Powered by Talentlink
+              </Badge>
             </div>
-            <div className="space-y-2">
-              <Label
-                htmlFor="campaignDetails"
-                className="dark:text-white flex items-center space-x-2"
-              >
-                <FileCheck className="h-4 w-4 text-purple-500" />
-                <span>Campaign Details</span>
-              </Label>
-              <Textarea
-                id="campaignDetails"
-                name="campaignDetails"
-                value={formData.campaignDetails}
-                onChange={handleInputChange}
-                required
-                className="dark:bg-zinc-700 dark:text-white focus:ring-2 focus:ring-indigo-500 min-h-[100px]"
-              />
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="space-y-2">
-                <Label
-                  htmlFor="compensation"
-                  className="dark:text-white flex items-center space-x-2"
-                >
-                  <DollarSign className="h-4 w-4 text-yellow-500" />
-                  <span>Compensation</span>
-                </Label>
-                <Input
-                  id="compensation"
-                  name="compensation"
-                  value={formData.compensation}
-                  onChange={handleInputChange}
-                  required
-                  className="dark:bg-zinc-700 dark:text-white focus:ring-2 focus:ring-indigo-500"
-                />
-              </div>
-              <div className="space-y-2">
-                <Label
-                  htmlFor="duration"
-                  className="dark:text-white flex items-center space-x-2"
-                >
-                  <Calendar className="h-4 w-4 text-red-500" />
-                  <span>Duration</span>
-                </Label>
-                <Input
-                  id="duration"
-                  name="duration"
-                  value={formData.duration}
-                  onChange={handleInputChange}
-                  required
-                  className="dark:bg-zinc-700 dark:text-white focus:ring-2 focus:ring-indigo-500"
-                />
-              </div>
-            </div>
-            <Button
-              type="submit"
-              disabled={isLoading}
-              className="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white font-semibold py-2 px-4 rounded-lg transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50"
-            >
-              {isLoading ? (
-                <>
-                  <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                  Generating Contract...
-                </>
-              ) : (
-                <>
-                  <FileText className="mr-2 h-5 w-5 text-white" />
-                  Generate Contract
-                </>
-              )}
-            </Button>
-          </form>
-        </CardContent>
-      </Card>
-
-      {contract && (
-        <Card className="dark:bg-zinc-800 dark:border-zinc-700 shadow-lg">
-          <CardHeader className="bg-gradient-to-r from-green-600 to-teal-600 text-white rounded-t-lg">
-            <CardTitle className="text-2xl font-semibold flex items-center space-x-2">
-              <FileCheck className="h-6 w-6 text-white" />
-              <span>Generated Contract</span>
-            </CardTitle>
+            <p className="text-sm text-zinc-400 mt-2">
+              Generate professional influencer contracts instantly with AI assistance.
+            </p>
           </CardHeader>
-          <CardContent className="pt-6">
-            <div className="bg-zinc-100 dark:bg-zinc-700 p-6 rounded-lg max-h-96 overflow-y-auto shadow-inner">
-              <ReactMarkdown>{contract}</ReactMarkdown>
-            </div>
-            <div className="flex space-x-4 mt-6">
+          <CardContent className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-2">
+                  <Label className="text-sm font-medium text-zinc-300 flex items-center">
+                    <Briefcase className="w-4 h-4 mr-2 text-zinc-400" />
+                    Brand Name
+                  </Label>
+                  <Input
+                    id="brandName"
+                    name="brandName"
+                    value={formData.brandName}
+                    onChange={handleInputChange}
+                    required
+                    className="bg-zinc-800/50 border-zinc-700 text-zinc-100 placeholder:text-zinc-500 focus:border-zinc-600 h-11"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label className="text-sm font-medium text-zinc-300 flex items-center">
+                    <User className="w-4 h-4 mr-2 text-zinc-400" />
+                    Influencer Name
+                  </Label>
+                  <Input
+                    id="influencerName"
+                    name="influencerName"
+                    value={formData.influencerName}
+                    onChange={handleInputChange}
+                    required
+                    className="bg-zinc-800/50 border-zinc-700 text-zinc-100 placeholder:text-zinc-500 focus:border-zinc-600 h-11"
+                  />
+                </div>
+              </div>
+              <div className="space-y-2">
+                <Label className="text-sm font-medium text-zinc-300 flex items-center">
+                  <FileCheck className="w-4 h-4 mr-2 text-zinc-400" />
+                  Campaign Details
+                </Label>
+                <Textarea
+                  id="campaignDetails"
+                  name="campaignDetails"
+                  value={formData.campaignDetails}
+                  onChange={handleInputChange}
+                  required
+                  className="bg-zinc-800/50 border-zinc-700 text-zinc-100 placeholder:text-zinc-500 focus:border-zinc-600 min-h-[120px] resize-none"
+                />
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-2">
+                  <Label className="text-sm font-medium text-zinc-300 flex items-center">
+                    <DollarSign className="w-4 h-4 mr-2 text-zinc-400" />
+                    Compensation
+                  </Label>
+                  <div className="relative">
+                    <Input
+                      id="compensation"
+                      name="compensation"
+                      value={formData.compensation}
+                      onChange={handleInputChange}
+                      required
+                      className="bg-zinc-800/50 border-zinc-700 text-zinc-100 placeholder:text-zinc-500 focus:border-zinc-600 h-11 pl-7"
+                    />
+                    <DollarSign className="absolute left-3 top-1/2 transform -translate-y-1/2 text-zinc-500 h-4 w-4" />
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <Label className="text-sm font-medium text-zinc-300 flex items-center">
+                    <Calendar className="w-4 h-4 mr-2 text-zinc-400" />
+                    Duration
+                  </Label>
+                  <Input
+                    id="duration"
+                    name="duration"
+                    value={formData.duration}
+                    onChange={handleInputChange}
+                    required
+                    className="bg-zinc-800/50 border-zinc-700 text-zinc-100 placeholder:text-zinc-500 focus:border-zinc-600 h-11"
+                  />
+                </div>
+              </div>
               <Button
-                onClick={handleDownloadPDF}
-                className="w-full bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white font-semibold py-2 px-4 rounded-lg transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+                type="submit"
+                disabled={isLoading}
+                className="w-full bg-zinc-700 hover:bg-zinc-600 text-zinc-100 transition-colors h-11 text-base font-medium"
               >
-                <Download className="mr-2 h-5 w-5 text-white" />
-                Download PDF
+                {isLoading ? (
+                  <>
+                    <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                    Generating Contract...
+                  </>
+                ) : (
+                  <>
+                    <FileText className="mr-2 h-5 w-5" />
+                    Generate Contract
+                  </>
+                )}
               </Button>
-            </div>
+            </form>
+
+            {contract && (
+              <div className="mt-8 space-y-4">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-2">
+                    <h3 className="text-lg font-semibold text-zinc-100">Generated Contract</h3>
+                    <Badge variant="outline" className="border-green-500/50 text-green-400">
+                      Ready to Download
+                    </Badge>
+                  </div>
+                  <Button
+                    onClick={handleDownloadPDF}
+                    className="bg-zinc-700 hover:bg-zinc-600 text-zinc-100 transition-colors h-9"
+                  >
+                    <Download className="w-4 h-4 mr-2" />
+                    Download PDF
+                  </Button>
+                </div>
+                <div className="bg-zinc-800/50 border border-zinc-700 rounded-lg p-6">
+                  <ReactMarkdown className="prose prose-invert max-w-none">
+                    {contract}
+                  </ReactMarkdown>
+                </div>
+              </div>
+            )}
           </CardContent>
         </Card>
-      )}
-
-      <div className="text-center text-sm text-zinc-500 dark:text-zinc-400 mt-8">
-        <p className="flex items-center justify-center space-x-1">
-          <AlertCircle className="h-4 w-4 text-orange-500" />
-          <span>
-            This is an AI-generated contract. Please review with a legal
-            professional before use.
-          </span>
-        </p>
       </div>
     </div>
   );
