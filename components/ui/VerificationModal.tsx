@@ -132,17 +132,20 @@ export const VerificationModal = ({ isOpen, onClose, onVerify }: VerificationMod
             }
             onClose();
         }}>
-            <DialogContent className="sm:max-w-[600px]">
+            <DialogContent className="sm:max-w-[600px] bg-zinc-800/95 border-zinc-700">
                 <DialogHeader>
-                    <DialogTitle>Verify Your Identity</DialogTitle>
-                    <DialogDescription>
+                    <DialogTitle className="text-xl font-semibold text-zinc-100 flex items-center">
+                        <CheckCircle2 className="w-5 h-5 mr-2 text-zinc-400" />
+                        Verify Your Identity
+                    </DialogTitle>
+                    <DialogDescription className="text-zinc-400">
                         Please enter your business email to verify your identity as a brand manager.
                     </DialogDescription>
                 </DialogHeader>
 
                 <form onSubmit={handleSubmit} className="space-y-6">
                     <div className="space-y-4">
-                        <div className="flex items-center gap-2 text-sm text-yellow-600 bg-yellow-50 p-3 rounded-md">
+                        <div className="flex items-center gap-2 text-sm text-yellow-300 bg-yellow-950/50 border border-yellow-900/50 p-3 rounded-md">
                             <AlertCircle className="h-4 w-4" />
                             <p>Personal email addresses (Gmail, Yahoo, Hotmail) are not accepted. Please use your company email.</p>
                         </div>
@@ -152,21 +155,21 @@ export const VerificationModal = ({ isOpen, onClose, onVerify }: VerificationMod
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             required
-                            className="w-full"
+                            className="w-full bg-zinc-800/50 border-zinc-700 text-zinc-100 placeholder:text-zinc-500 focus:border-zinc-600"
                             disabled={isLoading}
                         />
                     </div>
 
                     {/* Verification Steps */}
-                    <div className="space-y-4">
+                    <div className="space-y-4 bg-zinc-900/50 p-4 rounded-lg">
                         {steps.map((step) => (
                             <div key={step.id} className="flex items-start space-x-4">
                                 <div className="flex-shrink-0 mt-1">
                                     {getStepIcon(step.status)}
                                 </div>
                                 <div className="flex-1">
-                                    <h4 className="font-medium">{step.title}</h4>
-                                    <p className="text-sm text-gray-500">{step.description}</p>
+                                    <h4 className="font-medium text-zinc-200">{step.title}</h4>
+                                    <p className="text-sm text-zinc-400">{step.description}</p>
                                 </div>
                             </div>
                         ))}
@@ -174,7 +177,7 @@ export const VerificationModal = ({ isOpen, onClose, onVerify }: VerificationMod
 
                     <Button
                         type="submit"
-                        className="w-full"
+                        className="w-full bg-zinc-700 hover:bg-zinc-600 text-zinc-100"
                         disabled={isLoading}
                     >
                         {isLoading ? (

@@ -30,6 +30,10 @@ import {
   Sparkles,
   TrendingUp,
   DollarSign,
+  Mail,
+  Phone,
+  MapPin,
+  Share2,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 
@@ -254,13 +258,19 @@ export default function Component() {
     <div className="min-h-screen bg-zinc-950 text-white pt-20 px-4 sm:px-6 lg:px-24">
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col space-y-6">
-          <div className="flex justify-between items-center">
-            <div className="flex items-center space-x-2">
+          <div className="flex items-center justify-between">
+            <div className="space-y-1">
               <h1 className="text-3xl font-bold tracking-tight flex items-center">
                 <TrendingUp className="w-8 h-8 mr-3 text-zinc-400" />
                 Trending Influencers
               </h1>
-              <Badge variant="outline" className="border-zinc-700 text-zinc-400">
+              <p className="text-zinc-400">
+                Connect with top performing creators in your industry
+              </p>
+            </div>
+            <div className="flex items-center space-x-3">
+              <Badge variant="outline" className="border-zinc-700 text-zinc-400 px-4 py-1">
+                <Sparkles className="w-4 h-4 mr-2" />
                 Top 15 Creators
               </Badge>
             </div>
@@ -268,51 +278,69 @@ export default function Component() {
 
           <Card className="bg-zinc-800/50 border-zinc-700/50">
             <CardHeader className="pb-4">
-              <CardTitle className="text-lg font-semibold text-zinc-100 flex items-center">
-                <Sparkles className="w-5 h-5 mr-2 text-zinc-400" />
-                Performance Metrics
+              <CardTitle className="text-lg font-semibold text-zinc-100 flex items-center justify-between">
+                <div className="flex items-center">
+                  <Sparkles className="w-5 h-5 mr-2 text-zinc-400" />
+                  Performance Metrics
+                </div>
+                <Badge variant="outline" className="border-zinc-700 text-zinc-400">
+                  Live Rankings
+                </Badge>
               </CardTitle>
             </CardHeader>
             <CardContent>
               <Table>
                 <TableHeader>
-                  <TableRow className="hover:bg-zinc-800/50">
-                    <TableHead className="text-zinc-400">Influencer</TableHead>
-                    <TableHead className="text-zinc-400">Platform</TableHead>
-                    <TableHead className="text-zinc-400">Followers</TableHead>
-                    <TableHead className="text-zinc-400">Engagement Rate</TableHead>
-                    <TableHead className="text-zinc-400">ROI</TableHead>
-                    <TableHead className="text-zinc-400">Actions</TableHead>
+                  <TableRow className="hover:bg-zinc-800/50 border-zinc-700">
+                    <TableHead className="text-zinc-400 font-medium">Influencer</TableHead>
+                    <TableHead className="text-zinc-400 font-medium">Platform</TableHead>
+                    <TableHead className="text-zinc-400 font-medium">Followers</TableHead>
+                    <TableHead className="text-zinc-400 font-medium">Engagement Rate</TableHead>
+                    <TableHead className="text-zinc-400 font-medium">ROI</TableHead>
+                    <TableHead className="text-zinc-400 font-medium text-right">Actions</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {mockInfluencers.map((influencer) => (
+                  {mockInfluencers.map((influencer, index) => (
                     <TableRow
                       key={influencer.id}
-                      className="hover:bg-zinc-800/50 cursor-pointer"
+                      className="hover:bg-zinc-800/50 border-zinc-700/50 cursor-pointer transition-colors"
                       onClick={() => setSelectedInfluencer(influencer)}
                     >
                       <TableCell className="font-medium">
                         <div className="flex items-center space-x-3">
-                          <Avatar className="h-8 w-8">
-                            <AvatarImage src={influencer.avatar} alt={influencer.name} />
-                            <AvatarFallback className="bg-zinc-700 text-zinc-100">
-                              {influencer.name.charAt(0)}
-                            </AvatarFallback>
-                          </Avatar>
-                          <span className="text-zinc-100">{influencer.name}</span>
+                          <div className="relative">
+                            <Avatar className="h-10 w-10 border-2 border-zinc-700/50">
+                              <AvatarImage src={influencer.avatar} alt={influencer.name} />
+                              <AvatarFallback className="bg-zinc-700 text-zinc-100">
+                                {influencer.name.charAt(0)}
+                              </AvatarFallback>
+                            </Avatar>
+                            <Badge 
+                              className="absolute -top-2 -left-2 h-5 w-5 p-0 flex items-center justify-center bg-white border-zinc-200 text-black font-medium"
+                              variant="outline"
+                            >
+                              {index + 1}
+                            </Badge>
+                          </div>
+                          <div className="space-y-1">
+                            <p className="text-zinc-100 font-medium">{influencer.name}</p>
+                            <p className="text-xs text-zinc-400">{influencer.address}</p>
+                          </div>
                         </div>
                       </TableCell>
                       <TableCell>
                         <div className="flex items-center space-x-2">
-                          <PlatformIcon platform={influencer.platform} />
+                          <div className="p-1.5 rounded-md bg-zinc-800/50 border border-zinc-700/50">
+                            <PlatformIcon platform={influencer.platform} />
+                          </div>
                           <span className="text-zinc-300 capitalize">{influencer.platform}</span>
                         </div>
                       </TableCell>
                       <TableCell>
                         <div className="flex items-center space-x-2">
                           <Users className="w-4 h-4 text-zinc-400" />
-                          <span className="text-zinc-300">{formatNumber(influencer.followers)}</span>
+                          <span className="text-zinc-300 font-medium">{formatNumber(influencer.followers)}</span>
                         </div>
                       </TableCell>
                       <TableCell>
@@ -343,7 +371,7 @@ export default function Component() {
                           {influencer.roi}x
                         </Badge>
                       </TableCell>
-                      <TableCell>
+                      <TableCell className="text-right">
                         <Dialog>
                           <DialogTrigger asChild>
                             <Button
@@ -364,7 +392,7 @@ export default function Component() {
                             {selectedInfluencer && (
                               <div className="mt-6 space-y-6">
                                 <div className="flex items-center space-x-4">
-                                  <Avatar className="h-16 w-16">
+                                  <Avatar className="h-16 w-16 border-2 border-zinc-700">
                                     <AvatarImage
                                       src={selectedInfluencer.avatar}
                                       alt={selectedInfluencer.name}
@@ -378,46 +406,52 @@ export default function Component() {
                                     <p className="text-lg font-semibold text-zinc-100">{selectedInfluencer.name}</p>
                                   </div>
                                 </div>
-                                <div className="space-y-2">
-                                  <h3 className="text-sm font-medium text-zinc-400">Contact Information</h3>
-                                  <div className="space-y-2">
-                                    <p className="text-zinc-300 flex items-center">
-                                      <span className="w-20 text-zinc-400">Email:</span>
-                                      {selectedInfluencer.email}
-                                    </p>
-                                    <p className="text-zinc-300 flex items-center">
-                                      <span className="w-20 text-zinc-400">Phone:</span>
-                                      {selectedInfluencer.phone}
-                                    </p>
-                                    <p className="text-zinc-300 flex items-center">
-                                      <span className="w-20 text-zinc-400">Location:</span>
-                                      {selectedInfluencer.address}
-                                    </p>
-                                  </div>
-                                </div>
-                                <div className="space-y-2">
-                                  <h3 className="text-sm font-medium text-zinc-400">Performance Metrics</h3>
-                                  <div className="grid grid-cols-3 gap-4">
-                                    <div className="bg-zinc-800/50 p-3 rounded-lg">
-                                      <p className="text-sm text-zinc-400">Followers</p>
-                                      <p className="text-lg font-semibold text-zinc-100">
-                                        {formatNumber(selectedInfluencer.followers)}
+                                <div className="grid grid-cols-2 gap-4">
+                                  <div className="space-y-2 bg-zinc-900/50 p-4 rounded-lg">
+                                    <h3 className="text-sm font-medium text-zinc-400">Contact Information</h3>
+                                    <div className="space-y-2">
+                                      <p className="text-zinc-300 text-sm flex items-center">
+                                        <Mail className="w-4 h-4 mr-2 text-zinc-400" />
+                                        {selectedInfluencer.email}
                                       </p>
-                                    </div>
-                                    <div className="bg-zinc-800/50 p-3 rounded-lg">
-                                      <p className="text-sm text-zinc-400">Engagement Rate</p>
-                                      <p className="text-lg font-semibold text-zinc-100">
-                                        {selectedInfluencer.engagementRate}%
+                                      <p className="text-zinc-300 text-sm flex items-center">
+                                        <Phone className="w-4 h-4 mr-2 text-zinc-400" />
+                                        {selectedInfluencer.phone}
                                       </p>
-                                    </div>
-                                    <div className="bg-zinc-800/50 p-3 rounded-lg">
-                                      <p className="text-sm text-zinc-400">ROI</p>
-                                      <p className="text-lg font-semibold text-zinc-100">
-                                        {selectedInfluencer.roi}x
+                                      <p className="text-zinc-300 text-sm flex items-center">
+                                        <MapPin className="w-4 h-4 mr-2 text-zinc-400" />
+                                        {selectedInfluencer.address}
                                       </p>
                                     </div>
                                   </div>
+                                  <div className="space-y-2 bg-zinc-900/50 p-4 rounded-lg">
+                                    <h3 className="text-sm font-medium text-zinc-400">Performance Metrics</h3>
+                                    <div className="space-y-2">
+                                      <div className="flex justify-between items-center">
+                                        <span className="text-zinc-400 text-sm">Followers</span>
+                                        <span className="text-zinc-100 font-medium">
+                                          {formatNumber(selectedInfluencer.followers)}
+                                        </span>
+                                      </div>
+                                      <div className="flex justify-between items-center">
+                                        <span className="text-zinc-400 text-sm">Engagement</span>
+                                        <span className="text-zinc-100 font-medium">
+                                          {selectedInfluencer.engagementRate}%
+                                        </span>
+                                      </div>
+                                      <div className="flex justify-between items-center">
+                                        <span className="text-zinc-400 text-sm">ROI</span>
+                                        <span className="text-zinc-100 font-medium">
+                                          {selectedInfluencer.roi}x
+                                        </span>
+                                      </div>
+                                    </div>
+                                  </div>
                                 </div>
+                                <Button className="w-full bg-zinc-700 hover:bg-zinc-600 text-zinc-100">
+                                  <Share2 className="w-4 h-4 mr-2" />
+                                  Send Connection Request
+                                </Button>
                               </div>
                             )}
                           </DialogContent>
