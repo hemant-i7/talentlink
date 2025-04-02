@@ -17,7 +17,6 @@ import {
   FileCheck,
   AlertCircle,
 } from "lucide-react";
-import ReactMarkdown from "react-markdown";
 import { toast } from "react-hot-toast";
 import jsPDF from "jspdf";
 import { Badge } from "@/components/ui/badge";
@@ -269,10 +268,105 @@ export default function ContractGenerator() {
                     Download PDF
                   </Button>
                 </div>
-                <div className="bg-zinc-800/50 border border-zinc-700 rounded-lg p-6">
-                  <ReactMarkdown className="prose prose-invert max-w-none">
-                    {contract}
-                  </ReactMarkdown>
+                <div className="bg-zinc-800/50 border border-zinc-700 rounded-lg p-6 overflow-x-auto">
+                  <div className="text-white whitespace-pre-wrap contract-content">
+                    <style jsx global>{`
+                      .contract-content {
+                        color: white;
+                        font-family: system-ui, -apple-system, sans-serif;
+                        line-height: 1.6;
+                      }
+                      .contract-content h1 {
+                        font-size: 1.875rem;
+                        font-weight: 700;
+                        margin: 2rem 0 1.5rem 0;
+                        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+                        padding-bottom: 0.5rem;
+                      }
+                      .contract-content h2 {
+                        font-size: 1.5rem;
+                        font-weight: 600;
+                        margin: 1.5rem 0 1rem 0;
+                      }
+                      .contract-content h3 {
+                        font-size: 1.25rem;
+                        font-weight: 600;
+                        margin: 1.25rem 0 0.75rem 0;
+                      }
+                      .contract-content p {
+                        margin: 1rem 0;
+                        color: rgba(255, 255, 255, 0.9);
+                      }
+                      .contract-content ul, .contract-content ol {
+                        margin: 1rem 0;
+                        padding-left: 2rem;
+                        color: rgba(255, 255, 255, 0.9);
+                      }
+                      .contract-content li {
+                        margin: 0.5rem 0;
+                      }
+                      .contract-content strong {
+                        color: white;
+                        font-weight: 600;
+                      }
+                      .contract-content em {
+                        color: rgba(255, 255, 255, 0.9);
+                        font-style: italic;
+                      }
+                      .contract-content blockquote {
+                        border-left: 4px solid rgba(255, 255, 255, 0.2);
+                        margin: 1rem 0;
+                        padding-left: 1rem;
+                        color: rgba(255, 255, 255, 0.8);
+                      }
+                      .contract-content code {
+                        background: rgba(0, 0, 0, 0.2);
+                        padding: 0.2rem 0.4rem;
+                        border-radius: 0.25rem;
+                        font-family: monospace;
+                      }
+                      .contract-content a {
+                        color: #60a5fa;
+                        text-decoration: underline;
+                      }
+                      .contract-content hr {
+                        border: none;
+                        border-top: 1px solid rgba(255, 255, 255, 0.1);
+                        margin: 2rem 0;
+                      }
+                    `}</style>
+                    {contract.split('\n').map((line, index) => {
+                      // Convert markdown headers
+                      if (line.startsWith('# ')) {
+                        return <h1 key={index}>{line.slice(2)}</h1>;
+                      }
+                      if (line.startsWith('## ')) {
+                        return <h2 key={index}>{line.slice(3)}</h2>;
+                      }
+                      if (line.startsWith('### ')) {
+                        return <h3 key={index}>{line.slice(4)}</h3>;
+                      }
+                      
+                      // Convert bold text
+                      line = line.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                      
+                      // Convert italic text
+                      line = line.replace(/\*(.*?)\*/g, '<em>$1</em>');
+                      
+                      // Convert bullet points
+                      if (line.startsWith('* ')) {
+                        return <li key={index} dangerouslySetInnerHTML={{ __html: line.slice(2) }} />;
+                      }
+                      
+                      // Empty lines
+                      if (line.trim() === '') {
+                        return <br key={index} />;
+                      }
+                      
+                      // Regular paragraphs
+                      return <p key={index} dangerouslySetInnerHTML={{ __html: line }} />;
+                    })}
+                  </div>
                 </div>
               </div>
             )}
