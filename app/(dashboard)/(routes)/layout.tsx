@@ -12,8 +12,8 @@ export default function DashboardLayout({
         <Sidebar />
       </div>
       <Toaster />
-      <main className="md:pl-80 pb-10">
-        <div className="py-4">{children}</div>
+      <main className="md:pl-80">
+        <div className="">{children}</div>
       </main>
     </div>
   );

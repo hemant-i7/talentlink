@@ -47,6 +47,7 @@ body,
     --chart-5: 27 87% 67%;
     --radius: 0.5rem;
   }
+
   .dark {
     --background: 0 0% 3.9%;
     --foreground: 0 0% 98%;
@@ -79,7 +80,18 @@ body,
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground;
   }
+}
+
+.prose-invert {
+  --tw-prose-body: theme('colors.zinc.300');
+  --tw-prose-headings: theme('colors.zinc.100');
+  --tw-prose-links: theme('colors.zinc.300');
+  --tw-prose-bold: theme('colors.zinc.200');
+  --tw-prose-bullets: theme('colors.zinc.500');
+  --tw-prose-quotes: theme('colors.zinc.300');
+  --tw-prose-code: theme('colors.zinc.300');
 }

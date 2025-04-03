@@ -16,7 +16,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Prompt is required" }, { status: 400 });
     }
 
-    const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
 
     const result = await model.generateContent(`Generate a title and description for a product or service related to: ${prompt}. 
     Format the response as JSON with "title" and "description" fields. Do not include any additional text or formatting outside the JSON.`);

@@ -15,7 +15,8 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Search, Plus, Edit, Trash2 } from "lucide-react";
+import { Search, Plus, Edit, Trash2, Briefcase, DollarSign, Building2, FileText, CheckCircle, Image } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 
 interface Brand {
   _id: string;
@@ -109,126 +110,179 @@ export default function ManagerDashboard() {
   );
 
   return (
-    <div className="min-h-screen bg-zinc-950 text-white pt-40 px-24">
-      <Toaster position="top-right" />
-      <Tabs defaultValue="current" className="w-full">
-        <TabsList className="grid w-full grid-cols-2 mb-8">
-          <TabsTrigger value="current">Current Brand Deals</TabsTrigger>
-          <TabsTrigger value="add">Add New Brand Deal</TabsTrigger>
-        </TabsList>
-        <TabsContent value="current">
-          <div className="mb-6 relative">
-            <Input
-              type="text"
-              placeholder="Search brands..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 bg-zinc-900 text-white"
-            />
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-          </div>
-          {loading ? (
-            <p className="text-center">Loading brands...</p>
-          ) : error ? (
-            <p className="text-red-500 text-center">{error}</p>
-          ) : (
-            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {filteredBrands.map((brand) => (
-                <Card
-                  key={brand._id}
-                  className="bg-zinc-800 hover:bg-zinc-700 transition-colors"
-                >
-                  <CardHeader className="flex flex-row items-center gap-4">
-                    <img
-                      src={brand.imageUrl}
-                      alt={brand.name}
-                      className="w-16 h-16 rounded-full object-cover"
-                    />
-                    <CardTitle>{brand.name}</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-sm text-gray-400 mb-2">
-                      {brand.description}
-                    </p>
-                    <p className="text-sm font-bold text-white">
-                      Sponsorship: {brand.moneyOffered}
-                    </p>
-                    <p className="text-sm font-medium">
-                      Status:{" "}
-                      <span
-                        className={
-                          brand.sponsorshipAvailable
-                            ? "text-green-500"
-                            : "text-red-500"
-                        }
-                      >
-                        {brand.sponsorshipAvailable
-                          ? "Available"
-                          : "Unavailable"}
-                      </span>
-                    </p>
-                  </CardContent>
-                  <CardFooter className="flex justify-end space-x-2">
-                    <Button variant="outline" size="icon">
-                      <Edit className="h-4 w-4" />
-                    </Button>
-                    <Button variant="outline" size="icon">
-                      <Trash2 className="h-4 w-4" />
-                    </Button>
-                  </CardFooter>
-                </Card>
-              ))}
+    <div className="min-h-screen bg-zinc-950 text-white pt-20 px-4 sm:px-6 lg:px-24">
+      <div className="max-w-7xl mx-auto">
+        <Toaster position="top-right" />
+        <Tabs defaultValue="current" className="w-full">
+          <TabsList className="grid w-full grid-cols-2 mb-8 bg-zinc-800/50 border-zinc-700">
+            <TabsTrigger 
+              value="current" 
+              className="data-[state=active]:bg-zinc-700 data-[state=active]:text-zinc-100"
+            >
+              <Briefcase className="w-4 h-4 mr-2" />
+              Current Brand Deals
+            </TabsTrigger>
+            <TabsTrigger 
+              value="add"
+              className="data-[state=active]:bg-zinc-700 data-[state=active]:text-zinc-100"
+            >
+              <Plus className="w-4 h-4 mr-2" />
+              Add New Brand Deal
+            </TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="current">
+            <div className="flex flex-col space-y-6">
+              <div className="flex justify-between items-center">
+                <h1 className="text-3xl font-bold tracking-tight flex items-center">
+                  <Briefcase className="w-8 h-8 mr-3 text-zinc-400" />
+                  Brand Deals
+                </h1>
+                <div className="relative">
+                  <Input
+                    type="text"
+                    placeholder="Search brands..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="w-64 bg-zinc-800/50 border-zinc-700 text-zinc-100 placeholder:text-zinc-500 focus:border-zinc-600"
+                  />
+                  <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 text-zinc-500 h-4 w-4" />
+                </div>
+              </div>
+
+              {loading ? (
+                <div className="flex items-center justify-center h-64">
+                  <p className="text-zinc-400 text-lg">Loading brands...</p>
+                </div>
+              ) : error ? (
+                <div className="flex items-center justify-center h-64">
+                  <p className="text-red-400 text-lg">{error}</p>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+                  {filteredBrands.map((brand) => (
+                    <Card
+                      key={brand._id}
+                      className="bg-zinc-800/50 hover:bg-zinc-800 transition-all duration-300 border-zinc-700/50 hover:border-zinc-600"
+                    >
+                      <CardHeader className="pb-4">
+                        <div className="flex items-center space-x-4">
+                          <img
+                            src={brand.imageUrl}
+                            alt={brand.name}
+                            className="w-16 h-16 rounded-full object-cover border-2 border-zinc-700"
+                          />
+                          <div>
+                            <CardTitle className="text-lg font-semibold text-zinc-100">
+                              {brand.name}
+                            </CardTitle>
+                            <Badge 
+                              variant="outline" 
+                              className={`mt-2 ${
+                                brand.sponsorshipAvailable
+                                  ? "border-green-500/50 text-green-400"
+                                  : "border-red-500/50 text-red-400"
+                              }`}
+                            >
+                              {brand.sponsorshipAvailable ? "Available" : "Unavailable"}
+                            </Badge>
+                          </div>
+                        </div>
+                      </CardHeader>
+                      <CardContent className="space-y-3">
+                        <p className="text-sm text-zinc-300 line-clamp-2">
+                          {brand.description}
+                        </p>
+                        <div className="flex items-center justify-between pt-2">
+                          <span className="text-sm font-medium text-zinc-400 flex items-center">
+                            <DollarSign className="w-4 h-4 mr-1" />
+                            Sponsorship
+                          </span>
+                          <span className="text-sm font-semibold text-zinc-100">
+                            ${brand.moneyOffered}
+                          </span>
+                        </div>
+                      </CardContent>
+                      <CardFooter className="flex justify-end space-x-2 pt-4">
+                        <Button 
+                          variant="outline" 
+                          size="sm"
+                          className="bg-zinc-800/50 hover:bg-zinc-700/50 border-zinc-700 text-zinc-100 hover:text-white"
+                        >
+                          <Edit className="w-4 h-4 mr-2" />
+                          Edit
+                        </Button>
+                        <Button 
+                          variant="outline" 
+                          size="sm"
+                          className="bg-zinc-800/50 hover:bg-zinc-700/50 border-zinc-700 text-zinc-100 hover:text-white"
+                        >
+                          <Trash2 className="w-4 h-4 mr-2" />
+                          Delete
+                        </Button>
+                      </CardFooter>
+                    </Card>
+                  ))}
+                </div>
+              )}
             </div>
-          )}
-        </TabsContent>
-        <TabsContent value="add">
-          <Card className="bg-zinc-800">
-            <CardHeader>
-              <CardTitle className="text-2xl font-semibold flex items-center">
-                <Plus className="mr-2" /> Add New Brand Deal
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium mb-1">
-                  Brand Name
-                </label>
-                <Input
-                  type="text"
-                  name="name"
-                  value={brandDetails.name}
-                  onChange={handleInputChange}
-                  placeholder="Enter brand name"
-                  className="w-full bg-zinc-900"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium mb-1">
-                  Description
-                </label>
-                <Textarea
-                  name="description"
-                  value={brandDetails.description}
-                  onChange={handleInputChange}
-                  placeholder="Enter brand description"
-                  className="w-full bg-zinc-900"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium mb-1">
-                  Money Offered
-                </label>
-                <Input
-                  type="text"
-                  name="moneyOffered"
-                  value={brandDetails.moneyOffered}
-                  onChange={handleInputChange}
-                  placeholder="Enter sponsorship amount"
-                  className="w-full bg-zinc-900"
-                />
-              </div>
-              <div>
-                <label className="flex items-center space-x-2">
+          </TabsContent>
+
+          <TabsContent value="add">
+            <Card className="bg-zinc-800/50 border-zinc-700/50">
+              <CardHeader className="pb-6">
+                <CardTitle className="text-2xl font-semibold text-zinc-100 flex items-center">
+                  <Plus className="w-6 h-6 mr-2 text-zinc-400" />
+                  Add New Brand Deal
+                </CardTitle>
+                <p className="text-sm text-zinc-400 mt-2">
+                  Fill in the details below to create a new brand sponsorship opportunity.
+                </p>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-zinc-300 flex items-center">
+                    <Building2 className="w-4 h-4 mr-2 text-zinc-400" />
+                    Brand Name
+                  </label>
+                  <Input
+                    type="text"
+                    name="name"
+                    value={brandDetails.name}
+                    onChange={handleInputChange}
+                    placeholder="Enter brand name"
+                    className="bg-zinc-800/50 border-zinc-700 text-zinc-100 placeholder:text-zinc-500 focus:border-zinc-600 h-11"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-zinc-300 flex items-center">
+                    <FileText className="w-4 h-4 mr-2 text-zinc-400" />
+                    Description
+                  </label>
+                  <Textarea
+                    name="description"
+                    value={brandDetails.description}
+                    onChange={handleInputChange}
+                    placeholder="Enter brand description"
+                    className="bg-zinc-800/50 border-zinc-700 text-zinc-100 placeholder:text-zinc-500 focus:border-zinc-600 min-h-[120px] resize-none"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-zinc-300 flex items-center">
+                    <DollarSign className="w-4 h-4 mr-2 text-zinc-400" />
+                    Money Offered
+                  </label>
+                  <Input
+                    type="text"
+                    name="moneyOffered"
+                    value={brandDetails.moneyOffered}
+                    onChange={handleInputChange}
+                    placeholder="$ Enter sponsorship amount"
+                    className="bg-zinc-800/50 border-zinc-700 text-zinc-100 placeholder:text-zinc-500 focus:border-zinc-600 h-11 pl-7"
+                  />
+                  <DollarSign className="absolute left-3 top-1/2 transform -translate-y-1/2 text-zinc-500 h-4 w-4" />
+                </div>
+                <div className="flex items-center space-x-2">
                   <Checkbox
                     name="sponsorshipAvailable"
                     checked={brandDetails.sponsorshipAvailable}
@@ -238,35 +292,39 @@ export default function ManagerDashboard() {
                         sponsorshipAvailable: !!checked,
                       }))
                     }
+                    className="border-zinc-700 data-[state=checked]:bg-zinc-700 data-[state=checked]:border-zinc-600"
                   />
-                  <span className="text-sm">Sponsorship Available</span>
-                </label>
-              </div>
-              <div>
-                <label className="block text-sm font-medium mb-1">
-                  Image URL
-                </label>
-                <Input
-                  type="text"
-                  name="imageUrl"
-                  value={brandDetails.imageUrl}
-                  onChange={handleInputChange}
-                  placeholder="Enter image URL"
-                  className="w-full bg-zinc-900"
-                />
-              </div>
-            </CardContent>
-            <CardFooter>
-              <Button
-                onClick={handleAddBrand}
-                className="w-full bg-white hover:bg-white/20"
-              >
-                Add Brand Deal
-              </Button>
-            </CardFooter>
-          </Card>
-        </TabsContent>
-      </Tabs>
+                  <label className="text-sm font-medium text-zinc-300 flex items-center">
+                    <CheckCircle className="w-4 h-4 mr-2 text-zinc-400" />
+                    Sponsorship Available
+                  </label>
+                </div>
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-zinc-300 flex items-center">
+                    <Image className="w-4 h-4 mr-2 text-zinc-400" />
+                    Image URL
+                  </label>
+                  <Input
+                    type="text"
+                    name="imageUrl"
+                    value={brandDetails.imageUrl}
+                    onChange={handleInputChange}
+                    placeholder="Enter image URL"
+                    className="bg-zinc-800/50 border-zinc-700 text-zinc-100 placeholder:text-zinc-500 focus:border-zinc-600 h-11"
+                  />
+                </div>
+                <Button
+                  onClick={handleAddBrand}
+                  className="w-full bg-zinc-700 hover:bg-zinc-600 text-zinc-100 transition-colors h-11 text-base font-medium"
+                >
+                  <Plus className="w-5 h-5 mr-2" />
+                  Add Brand Deal
+                </Button>
+              </CardContent>
+            </Card>
+          </TabsContent>
+        </Tabs>
+      </div>
     </div>
   );
 }

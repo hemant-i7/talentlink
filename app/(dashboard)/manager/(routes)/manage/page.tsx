@@ -125,170 +125,153 @@ export default function ManagerDashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-zinc-950 text-white pt-40 px-4 sm:px-6 lg:px-24">
-      <h1 className="text-3xl font-bold mb-8 flex items-center">
-        <Briefcase className="mr-2 h-8 w-8 text-blue-500" />
-        Application Submissions
-      </h1>
-      <div className="mb-6 flex flex-col sm:flex-row gap-4">
-        <div className="relative flex-grow">
-          <Input
-            type="text"
-            placeholder="Search by name or brand..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="pl-10 bg-zinc-800 text-white"
-          />
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-zinc-400" />
+    <div className="min-h-screen bg-zinc-950 text-white pt-20 px-4 sm:px-6 lg:px-24">
+      <div className="max-w-7xl mx-auto">
+        <div className="flex flex-col space-y-6">
+          <div className="flex justify-between items-center">
+            <h1 className="text-3xl font-bold tracking-tight">Application Submissions</h1>
+            <div className="flex items-center space-x-4">
+              <div className="relative">
+                <Input
+                  type="text"
+                  placeholder="Search applications..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="w-64 bg-zinc-800/50 border-zinc-700 text-zinc-100 placeholder:text-zinc-500 focus:border-zinc-600"
+                />
+                <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 text-zinc-500 h-4 w-4" />
+              </div>
+              <Select value={statusFilter} onValueChange={(value: Application["status"] | "all") => setStatusFilter(value)}>
+                <SelectTrigger className="w-40 bg-zinc-800/50 border-zinc-700 text-zinc-100">
+                  <SelectValue placeholder="Filter by status" />
+                </SelectTrigger>
+                <SelectContent className="bg-zinc-800 border-zinc-700">
+                  <SelectItem value="all">All Status</SelectItem>
+                  <SelectItem value="pending">Pending</SelectItem>
+                  <SelectItem value="accepted">Accepted</SelectItem>
+                  <SelectItem value="rejected">Rejected</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+
+          {loading ? (
+            <div className="flex items-center justify-center h-64">
+              <p className="text-zinc-400 text-lg">Loading applications...</p>
+            </div>
+          ) : error ? (
+            <div className="flex items-center justify-center h-64">
+              <p className="text-red-400 text-lg">{error}</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {filteredApplications.map((application) => (
+                <Card
+                  key={application._id}
+                  className="bg-zinc-800/50 hover:bg-zinc-800 transition-all duration-300 border-zinc-700/50 hover:border-zinc-600"
+                >
+                  <CardHeader className="pb-4">
+                    <div className="flex items-center justify-between">
+                      <CardTitle className="text-lg font-semibold text-zinc-100">
+                        {application.brandName || "Unknown Brand"}
+                      </CardTitle>
+                      <Badge 
+                        variant="outline" 
+                        className={`${
+                          application.status === "accepted" 
+                            ? "border-green-500/50 text-green-400" 
+                            : application.status === "rejected"
+                            ? "border-red-500/50 text-red-400"
+                            : "border-yellow-500/50 text-yellow-400"
+                        }`}
+                      >
+                        {application.status.charAt(0).toUpperCase() + application.status.slice(1)}
+                      </Badge>
+                    </div>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div className="flex items-center space-x-3">
+                      <Avatar className="h-10 w-10">
+                        <AvatarImage
+                          src={`https://api.dicebear.com/6.x/initials/svg?seed=${application.name}`}
+                          alt={application.name}
+                        />
+                        <AvatarFallback className="bg-zinc-700 text-zinc-100">
+                          {application.name.charAt(0)}
+                        </AvatarFallback>
+                      </Avatar>
+                      <div>
+                        <p className="text-sm font-medium text-zinc-100">{application.name}</p>
+                        <p className="text-xs text-zinc-400">
+                          {new Date(application.createdAt).toLocaleDateString()}
+                        </p>
+                      </div>
+                    </div>
+                    <p className="text-sm text-zinc-300 line-clamp-2">
+                      {application.message}
+                    </p>
+                  </CardContent>
+                  <CardFooter>
+                    <Dialog>
+                      <DialogTrigger asChild>
+                        <Button
+                          variant="outline"
+                          onClick={() => setSelectedApplication(application)}
+                          className="w-full bg-zinc-800/50 hover:bg-zinc-700/50 border-zinc-700 text-zinc-100 hover:text-white transition-colors"
+                        >
+                          View Details
+                        </Button>
+                      </DialogTrigger>
+                      <DialogContent className="bg-zinc-800 border-zinc-700">
+                        <DialogHeader>
+                          <DialogTitle className="text-xl font-semibold text-zinc-100">
+                            Application Details
+                          </DialogTitle>
+                        </DialogHeader>
+                        {selectedApplication && (
+                          <div className="mt-6 space-y-6">
+                            <div className="flex items-center space-x-4">
+                              <Avatar className="h-16 w-16">
+                                <AvatarImage
+                                  src={`https://api.dicebear.com/6.x/initials/svg?seed=${selectedApplication.name}`}
+                                  alt={selectedApplication.name}
+                                />
+                                <AvatarFallback className="bg-zinc-700 text-zinc-100">
+                                  {selectedApplication.name.charAt(0)}
+                                </AvatarFallback>
+                              </Avatar>
+                              <div>
+                                <h3 className="text-sm font-medium text-zinc-400">Applicant Name</h3>
+                                <p className="text-lg font-semibold text-zinc-100">{selectedApplication.name}</p>
+                              </div>
+                            </div>
+                            <div className="space-y-2">
+                              <h3 className="text-sm font-medium text-zinc-400">Brand Name</h3>
+                              <p className="text-zinc-100">{selectedApplication.brandName}</p>
+                            </div>
+                            <div className="space-y-2">
+                              <h3 className="text-sm font-medium text-zinc-400">Message</h3>
+                              <p className="text-zinc-100">{selectedApplication.message}</p>
+                            </div>
+                            <div className="space-y-2">
+                              <h3 className="text-sm font-medium text-zinc-400">Contact</h3>
+                              <p className="text-zinc-100">{selectedApplication.mobile}</p>
+                            </div>
+                            <div className="space-y-2">
+                              <h3 className="text-sm font-medium text-zinc-400">Social Links</h3>
+                              <p className="text-zinc-100">{selectedApplication.socialLink}</p>
+                            </div>
+                          </div>
+                        )}
+                      </DialogContent>
+                    </Dialog>
+                  </CardFooter>
+                </Card>
+              ))}
+            </div>
+          )}
         </div>
       </div>
-      {loading ? (
-        <p className="text-center text-xl">Loading applications...</p>
-      ) : error ? (
-        <p className="text-red-500 text-center text-xl">{error}</p>
-      ) : (
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {filteredApplications.map((application) => (
-            <Card
-              key={application._id}
-              className="bg-zinc-800 hover:bg-zinc-700 transition-colors border-zinc-600"
-            >
-              <CardHeader>
-                <CardTitle className="flex items-center justify-between">
-                  <span className="truncate">
-                    {application.brandName || "Unknown Brand"}
-                  </span>
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-2">
-                  <div className="flex items-center">
-                    <Avatar className="h-10 w-10 mr-2">
-                      <AvatarImage
-                        src={`https://api.dicebear.com/6.x/initials/svg?seed=${application.name}`}
-                        alt={application.name}
-                      />
-                      <AvatarFallback>
-                        {application.name.charAt(0)}
-                      </AvatarFallback>
-                    </Avatar>
-
-                    <p className="text-sm flex items-center">
-                      <User className="mr-2 h-4 w-4 text-purple-500" />
-                      {application.name}
-                    </p>
-                  </div>
-                  <p className="text-sm flex items-center">
-                    <MessageSquare className="mr-2 h-4 w-4 text-green-500" />
-                    {application.message.substring(0, 50)}...
-                  </p>
-                  <p className="text-sm flex items-center">
-                    <Calendar className="mr-2 h-4 w-4 text-orange-500" />
-                    {new Date(application.createdAt).toLocaleString()}
-                  </p>
-                </div>
-              </CardContent>
-              <CardFooter>
-                <Dialog>
-                  <DialogTrigger asChild>
-                    <Button
-                      variant="outline"
-                      onClick={() => setSelectedApplication(application)}
-                      className="w-full"
-                    >
-                      <Eye className="mr-2 h-4 w-4 text-blue-500" />
-                      View Details
-                    </Button>
-                  </DialogTrigger>
-                  <DialogContent className="bg-zinc-800 text-white border border-zinc-700">
-                    <DialogHeader>
-                      <DialogTitle className="text-xl font-bold flex items-center">
-                        <Eye className="mr-2 h-6 w-6 text-blue-500" />
-                        Application Details
-                      </DialogTitle>
-                    </DialogHeader>
-                    {selectedApplication && (
-                      <div className="mt-4 space-y-4">
-                        <div className="flex items-center">
-                          <Avatar className="h-16 w-16 mr-4">
-                            <AvatarImage
-                              src={`https://api.dicebear.com/6.x/initials/svg?seed=${selectedApplication.name}`}
-                              alt={selectedApplication.name}
-                            />
-                            <AvatarFallback>
-                              {selectedApplication.name.charAt(0)}
-                            </AvatarFallback>
-                          </Avatar>
-                          <div>
-                            <h3 className="font-semibold flex items-center">
-                              <User className="mr-2 h-4 w-4 text-purple-500" />
-                              Applicant Name
-                            </h3>
-                            <p>{selectedApplication.name}</p>
-                          </div>
-                        </div>
-                        <div>
-                          <h3 className="font-semibold flex items-center">
-                            <Briefcase className="mr-2 h-4 w-4 text-yellow-500" />
-                            Brand Name
-                          </h3>
-                          <p>{selectedApplication.brandName}</p>
-                        </div>
-                        <div>
-                          <h3 className="font-semibold flex items-center">
-                            <MessageSquare className="mr-2 h-4 w-4 text-green-500" />
-                            Message
-                          </h3>
-                          <p>{selectedApplication.message}</p>
-                        </div>
-                        <div>
-                          <h3 className="font-semibold flex items-center">
-                            <Phone className="mr-2 h-4 w-4 text-blue-500" />
-                            Mobile
-                          </h3>
-                          <p>{selectedApplication.mobile}</p>
-                        </div>
-                        <div>
-                          <h3 className="font-semibold flex items-center">
-                            <Users className="mr-2 h-4 w-4 text-pink-500" />
-                            Social Media Followers
-                          </h3>
-                          <p>{selectedApplication.socialCount}</p>
-                        </div>
-                        <div>
-                          <h3 className="font-semibold flex items-center">
-                            <Share2 className="mr-2 h-4 w-4 text-indigo-500" />
-                            Social Media Link
-                          </h3>
-                          <a
-                            href={selectedApplication.socialLink}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-blue-400 hover:underline"
-                          >
-                            {selectedApplication.socialLink}
-                          </a>
-                        </div>
-                        <div>
-                          <h3 className="font-semibold flex items-center">
-                            <Calendar className="mr-2 h-4 w-4 text-orange-500" />
-                            Submitted on
-                          </h3>
-                          <p>
-                            {new Date(
-                              selectedApplication.createdAt
-                            ).toLocaleString()}
-                          </p>
-                        </div>
-                      </div>
-                    )}
-                  </DialogContent>
-                </Dialog>
-              </CardFooter>
-            </Card>
-          ))}
-        </div>
-      )}
     </div>
   );
 }
