@@ -16,8 +16,36 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "TalentLink",
-  description: "Made by Gen-X",
+  title: "TalentLink - Influencer Marketing Platform",
+  description: "TalentLink is a centralized platform that streamlines collaboration between brand managers and influencers. Manage users, brands, and access permissions seamlessly.",
+  metadataBase: new URL('https://talentlink-hk.vercel.app'),
+  openGraph: {
+    title: "TalentLink - Influencer Marketing Platform",
+    description: "Connect brands with influencers, manage campaigns, and track performance with our state-of-the-art platform powered by NLP.",
+    url: 'https://talentlink-hk.vercel.app',
+    siteName: 'TalentLink',
+    images: [
+      {
+        url: 'https://talentlink-hk.vercel.app/talentlink.png',
+        width: 1200,
+        height: 630,
+        alt: 'TalentLink Platform Preview'
+      }
+    ],
+    locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: "TalentLink - Influencer Marketing Platform",
+    description: "Connect brands with influencers, manage campaigns, and track performance with our state-of-the-art platform powered by NLP.",
+    images: ['https://talentlink-hk.vercel.app/talentlink.png'],
+    creator: '@talentlink',
+  },
+  robots: {
+    index: true,
+    follow: true,
+  }
 };
 
 export default function RootLayout({
